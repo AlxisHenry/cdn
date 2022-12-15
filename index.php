@@ -3,116 +3,106 @@
 declare(strict_types=1);
 
 /**
- * Url type : https://domain.com/{files|images|videos}?file={file-name}
+ * Url type : https://cdn.alexishenry.eu/public/{files|images|videos}?file={file-name}
  */
+
+/**
+ * Get the domain
+ * @var string $domain
+ */
+$domain = ($_SERVER['HTTPS'] ? "https://" : "http://") . $_SERVER['HTTP_HOST'];
 
 /**
  * Download files from the server
  * 
- * @var string $category
- * @var string $file
+ * @param string $category
+ * @param string $file
+ * @param string $domain
  */
-function download(string $category, string $file) {
+function download(string $category, string $file, string $domain) {
 	header("Content-Description: File Transfer");
 	header("Content-Type: application/octet-stream");
 	header("Content-Disposition: attachment; filename=$file");
 	header("Expires: 0");
 	header("Cache-Control: must-revalidate");
 	header("Pragma: public");
-	header("Content-Length: " . filesize(__DIR__ . "/$category/$file"));
-	readfile(__DIR__ . "/$category/$file");
+	header("Content-Length: " . filesize("$domain/$category/$file"));
+	readfile("$domain/$category/$file");
 	die();
 }
 
 /**
  * Custom JSON response
  * 
- * @var array $response
- * @var string $header
+ * @param array $response
+ * @param int $response_code
+ * @param string $domain
  */
-function response(array $response, string $header = 'Content-Type: application/json; charset=utf-8') {
-	header($header);
-	echo json_encode($response);
+function JsonResponse(array $response, int $response_code, string $domain) {
+	header('Content-Type: application/json; charset=utf-8');
+	echo json_encode(
+		array_merge(
+			[
+				"url" => $domain . $_SERVER["REQUEST_URI"],
+				"response_code" => $response_code,
+				"response_time" => date("Y-m-d H:i:s")
+			],
+			$response
+		)
+	);
 	die();
 }
 
 /**
- * Get the domain of the current request
+ * @var string $request
  */
-function domain() {
-	$domain = $_SERVER['HTTP_HOST'];
-	$protocol = $_SERVER['HTTPS'] ? "https://" : "http://";
-	return $protocol . $domain;
-};
-$domain = domain();
-
-/**
- * Check if the category requested is valid
- * 
- * @return string
- */
-enum Category: string 
-{
-	case File = "files";
-	case Image = "images";
-	case Video = "videos";
-}
-
 $request = $_SERVER["REQUEST_URI"];
 
 /**
  * Check if the no category is specified
  */
 if ($request === "/") {
-	response([
-		"url" => $domain . $_SERVER["REQUEST_URI"],
-		"response_code" => 400,
+	JsonResponse([
 		"status" => "The request can't be processed. Please specify a category.",
-		"message" => "Please specify a category in the URL. For example: $domain/{files|images|videos}."
-	]);
+		"message" => "Please specify a category in the URL. For example: $domain/{files|images|videos}.",
+		"category_specified" => null,
+		"file_specified" => null
+	], 400, $domain);
 }
-
-$category = strtolower(explode("/", $request)[1]);
 
 /**
- * Check if the category is valid
+ * @var string $category
+ * @var string $file
  */
-if (!Category::tryFrom($category)) {
-	response([
-		"url" => $domain . $_SERVER["REQUEST_URI"],
-		"response_code" => 400,
-		"status" => "The request can't be processed. Please specify a correct category.",
-		"message" => "Please specify a correct category in the URL. For example: $domain/{files|images|videos}."
-	]);
-}
-
+$category = strtolower(explode("/", $request)[2]);
 $file = $_GET["file"] ?? null;
 
 /**
  * Check if the file name is specified
  */
 if (!$file) {
-	response([
-		"url" => $domain . $_SERVER["REQUEST_URI"],
-		"response_code" => 400,
+	JsonResponse([
 		"status" => "The request can't be processed. Please specify a $category name.",
-		"message" => "Please specify a file name in the URL. For example: $domain/$category/file-name.ext."
-	]);
+		"message" => "Please specify a file name in the URL. For example: $domain/$category/file-name.ext.",
+		"category_specified" => $category,
+		"file_specified" => null
+	], 400, $domain);
 }
 
 /**
  * Check if the file exists
  */
-if (!file_exists(__DIR__ . "/$category/$file")) {
-	response([
-		"url" => $domain . $_SERVER["REQUEST_URI"],
-		"response_code" => 404,
+$filename = __DIR__ ."/public/$category/$file";
+if (!file_exists($filename)) {
+	JsonResponse([
 		"status" => "The requested file doesn't exist.",
-		"message" => "The requested file doesn't exist. Please check the URL."
-	]);
+		"message" => "The requested file doesn't exist. Please check the URL parameters specified and retry.",
+		"category_specified" => $category,
+		"file_specified" => $file
+	], 404, $domain);
 }
 
 /**
  * Download the file
  */
-download($category, $file);
+download($category, $file, $domain);

@@ -40,6 +40,4 @@ $request = $_SERVER["REQUEST_URI"];
 $category = strtolower(explode("/", $request)[2]);
 $file = $_GET["file"] ?? null;
 
-if (file_exists(__DIR__ . "/public/$category/$file")) {
-	download($category, $file, $domain);
-}
+download($category, $file, $domain);

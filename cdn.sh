@@ -41,7 +41,9 @@ do
 			fi
 		done
 		uploads ${file} ${category} > /dev/null 2>&1;
-		echo -e "Le fichier ${formatted_file} a été envoyé. Lien vers le cdn: \033[32m${CDN_URL}/${category}?file=${file}\033[0m";
+		echo -e "Le fichier ${formatted_file} a été envoyé :";
+		echo -e "  - Lien vers le cdn: \033[32m${CDN_URL}/${category}?file=${file}\033[0m";
+		echo -e "  - Lien vers le fichier: \033[32m${CDN_URL}/${category}/${file}\033[0m"
 	else
 		echo -e "Le fichier ${formatted_file} ne correspond pas aux normes ou n'existe simplement pas..."
 	fi

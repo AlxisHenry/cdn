@@ -3,11 +3,6 @@ source .env;
 dir=$(dirname $0)
 files=$(ls -1 uploads)
 
-if [ -z $files ]; then
-	echo -e "Aucun fichier n'est présent dans le dossier \033[34muploads\033[0m."
-	exit 0
-fi
-
 function uploads() {	
 	ssh ${SSH_USER}@${SSH_ADDR} "sudo chown -R ${SSH_USER}:${SSH_USER} ${SSH_DIST}/${category}";
 	rsync -azP -e 'ssh' ${dir}/uploads/${file} ${SSH_USER}@${SSH_ADDR}:${SSH_DIST}/${category}/;
@@ -20,6 +15,10 @@ video_extension="mp4 webm"
 	
 for file in ${files}
 do
+	if [ -z ${file} ]; then
+	        echo -e "Aucun fichier n'est présent dans le dossier \033[34muploads\033[0m."
+	        exit 0
+	fi
 	formatted_file="\033[34m${file}\033[0m"
 	if [ -f "${dir}/uploads/${file}" ]; then
 		category=""

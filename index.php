@@ -26,8 +26,8 @@ function download(string $category, string $file, string $domain) {
 	header("Expires: 0");
 	header("Cache-Control: must-revalidate");
 	header("Pragma: public");
-	header("Content-Length: " . filesize("$domain/$category/$file"));
-	readfile("$domain/$category/$file");
+	header("Content-Length: " . filesize(__DIR__ . "/public/$category/$file"));
+	readfile(__DIR__ . "/public/$category/$file");
 	die();
 }
 

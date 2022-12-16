@@ -46,7 +46,7 @@ This project is built with PHP. It's a simple cdn to store my images and files.
 **Clone the repository**
 
 ```
-  git clone https://github.com/AlxisHenry/cdn.git
+  git clone -b sync https://github.com/AlxisHenry/cdn.git
 ```
 
 **Deployement**

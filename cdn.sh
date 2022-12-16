@@ -4,9 +4,9 @@ dir=$(dirname $0)
 files=$(ls -1 uploads)
 
 function uploads() {	
-	ssh ${SSH_USER}@${SSH_ADDR} "sudo chown -R ${SSH_USER}:${SSH_USER} ${SSH_DIST}/${category}";
-	rsync -azP -e 'ssh' ${dir}/uploads/${filenameFormatted} ${SSH_USER}@${SSH_ADDR}:${SSH_DIST}/${category}/;
-	ssh ${SSH_USER}@${SSH_ADDR} "sudo chown -R www-data:www-data ${SSH_DIST}/${category}";
+	ssh ${SSH_USER}@${SSH_ADDR} -p ${SSH_PORT} "sudo chown -R ${SSH_USER}:${SSH_USER} ${SSH_DIST}/${category}";
+	rsync -azP -e "ssh -p ${SSH_PORT}" ${dir}/uploads/${filenameFormatted} ${SSH_USER}@${SSH_ADDR}:${SSH_DIST}/${category}/;
+	ssh ${SSH_USER}@${SSH_ADDR} -p ${SSH_PORT} "sudo chown -R www-data:www-data ${SSH_DIST}/${category}";
 }
 
 file_extension="pdf md txt"
@@ -41,8 +41,8 @@ do
 				category="videos"
 			fi
 		done
-		mv ${dir}/uploads/${file} ${dir}/uploads/${filenameFormatted}
-		uploads ${filenameFormatted} ${category};
+		mv ${dir}/uploads/${file} ${dir}/uploads/${filenameFormatted} > /dev/null 2>&1;
+		uploads ${filenameFormatted} ${category} > /dev/null 2>&1;
 		echo -e "Le fichier ${filenameColored} a été envoyé :";
 		echo -e "  - Lien vers le cdn: \033[32m${CDN_URL}/public/${category}?file=${filenameFormatted}\033[0m";
 		echo -e "  - Lien vers le fichier: \033[32m${CDN_URL}/public/${category}/${filenameFormatted}\033[0m"

@@ -84,7 +84,7 @@ function fileCategory() {
 	then
 		debug "Category: ${category}";
 	fi
-	success "File < ${file} > place in \033[36m${category}\033[0m category." false;
+	success "File < ${file} > placed in \033[36m${category}\033[0m category." false;
 }
 
 function foreach() {

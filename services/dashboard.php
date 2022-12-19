@@ -8,8 +8,8 @@ declare(strict_types=1);
 function getCategories(): array 
 {
 	$categories = [];
-	$directories = scandir('./public/');
-	$exclude = ['.', '..'];
+	$directories = scandir('./shared');
+	$exclude = ['.', '..', 'build', 'index.php'];
 	foreach ($directories as $directory) {
 		if (!in_array($directory, $exclude)) {
 			$categories[] = $directory;
@@ -25,7 +25,7 @@ function getCategories(): array
 function getContent(string $category): array 
 {
 	$files = [];
-	$categoryContent = scandir("./public/$category/");
+	$categoryContent = scandir("./shared/$category/");
 	$exclude = ['.', '..', '.gitignore', 'index.php'];
 	foreach ($categoryContent as $content) {
 		if (!in_array($content, $exclude)) {
@@ -46,11 +46,11 @@ function generateCategoryContentList(string $category): string
 	$list = "";
 	$domain = ($_SERVER['HTTPS'] ? "https://" : "http://") . $_SERVER['HTTP_HOST'];
 	foreach ($content as $item) {
-		$url = $domain . "/public/$category/$item";
-		$downloadUrl = $domain . "/public/$category/?file=$item";
+		$url = $domain . "/shared/$category/$item";
+		$downloadUrl = $domain . "/shared/$category/?file=$item";
 		$list .= "<li class='list-group-item d-flex flex-column'>
 					<p>
-						<a class='' target='_blank' href='public/$category/$item'>$item</a>
+						<a class='' target='_blank' href='/shared/$category/$item'>$item</a>
 					</p>
 					<p class='d-flex flex-column text-decoration-none'>
 						<a class='ml-auto p-1 text-decoration-none' target='_blank' href='$url'><i class='fa-solid fa-link'></i> <span>$url</span></a>

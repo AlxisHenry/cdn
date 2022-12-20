@@ -74,10 +74,11 @@ function fileCategory() {
 			fi
 	done
 	if [[ "${category}" == "" ]]; then
-		if [[ "${force}" == "false" ]]; then
-			throw "File < ${file} > extension is not allowed";
-		else
+		if [[ "${force}" == "true" ]]; then
+			debug "File < ${file} > extension is not allowed, but you use the force option."
 			category="files"
+		else
+			throw "File < ${file} > extension is not allowed";
 		fi
 	fi
 	if [[ "${debug}" == "true" ]];

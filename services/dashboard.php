@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/settings.php';
+
+use Symfony\Component\Yaml\Yaml;
+
 /**
  * @return array
  */
@@ -89,4 +94,15 @@ function generateCategorySection(string $category, bool $background): string
 				".generateCategoryContentList($category)."
 			</div>
 		</section>";
+}
+
+/**
+ * @return object
+ */
+function dashboard(): object
+{
+	// Parse settings yml file
+	$settings = Yaml::parseFile(__DIR__ . '/../settings.yml');
+	$dashboard = new Dashboard($settings['dashboard']);
+	return $dashboard;
 }

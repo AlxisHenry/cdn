@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>CDN - HENRY Alexis</title>
+        <title><?= dashboard()->title ?></title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="./build/assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
@@ -21,7 +21,7 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand" href="#page-top">CDN</a>
+                <a class="navbar-brand" href="#page-top"><?= dashboard()->description ?></a>
                 <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars"></i>
@@ -41,9 +41,9 @@
         <header class="masthead bg-primary text-white text-center">
             <div class="container d-flex align-items-center flex-column">
                 <!-- Masthead Avatar Image-->
-                <img class="masthead-avatar mb-5" src="https://cdn.alexishenry.eu/shared/images/logo.png" alt="..." />
+                <img class="masthead-avatar mb-5" src="<?= dashboard()->image ?>" alt="..." />
                 <!-- Masthead Heading-->
-                <h1 class="masthead-heading text-uppercase mb-0">HENRY Alexis</h1>
+                <h1 class="masthead-heading text-uppercase mb-0"><?= dashboard()->owner->fullName ?></h1>
                 <!-- Icon Divider-->
                 <div class="divider-custom divider-light">
                     <div class="divider-custom-line"></div>
@@ -51,7 +51,7 @@
                     <div class="divider-custom-line"></div>
                 </div>
                 <!-- Masthead Subheading-->
-                <p class="masthead-subheading font-weight-light mb-0">bash only</p>
+                <p class="masthead-subheading font-weight-light mb-0"><?= dashboard()->owner->description ?></p>
             </div>
         </header>
         <?php
@@ -63,7 +63,7 @@
         ?>
         <!-- Copyright Section-->
         <div class="copyright py-4 text-center text-white">
-            <div class="container"><small>Copyright &copy; CDN - HENRY Alexis 2022</small></div>
+            <div class="container"><small>&copy; <?= date('Y') . " " . dashboard()->title ?></small></div>
         </div>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

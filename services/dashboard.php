@@ -97,11 +97,10 @@ function generateCategorySection(string $category, bool $background): string
 }
 
 /**
- * @return object
+ * @return Dashboard
  */
-function dashboard(): object
+function dashboard(): Dashboard
 {
-	// Parse settings yml file
 	$settings = Yaml::parseFile(__DIR__ . '/../settings.yml');
 	$dashboard = new Dashboard($settings['dashboard']);
 	return $dashboard;

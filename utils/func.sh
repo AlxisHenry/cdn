@@ -106,13 +106,11 @@ function foreach() {
 		file_path=${file};
 		filename=$(echo ${file} | cut -d '/' -f 2);
 		formatted_filename=$(echo ${file} | cut -d '/' -f 2 | tr '[:upper:]' '[:lower:]' | iconv -f utf8 -t ascii//TRANSLIT//IGNORE | tr ' ' '_');
-		formatted_filename_output="\033[36m${formatted_filename}\033[0m"
 		if [[ "${debug}" == "true" ]];
 		then
 		 	debug "File path: ${file_path}";
 			debug "File name: ${filename}";
 			debug "Formatted file name: ${formatted_filename}";
-			debug "Formatted file name output: ${formatted_filename_output}";
 		fi
 		# Rename the file if it's not already formatted
 		if [[ "${filename}" != "${formatted_filename}" ]]; then
@@ -125,6 +123,7 @@ function foreach() {
 		if [[ "${debug}" == "true" ]];
 		then
 			debug "Url: ${url}";
+			debug "Download url: ${download_url}";
 		fi
 		success "File < ${formatted_filename} > uploaded to \033[36m${SSH_DIST}/${category}\033[0m" false;
 		details "You can access to your file at the following url: \033[36m${url}\033[0m";

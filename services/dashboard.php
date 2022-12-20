@@ -46,7 +46,7 @@ function getItemsCorrespondingToSearch(string $search): array
 	 */
 	foreach (getCategories() as $category) {
 		foreach (getCategoryItems($category) as $item) {
-			if (strpos(strtolower($item), strtolower($item)) !== false) {
+			if (strpos(strtolower($item), strtolower($search)) !== false) {
 				$items[] = [
 					'category' => $category,
 					'filename' => $item

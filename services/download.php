@@ -20,7 +20,7 @@ $domain = ($_SERVER['HTTPS'] ? "https://" : "http://") . $_SERVER['HTTP_HOST'];
  * @param string $domain
  */
 function download(string $category, string $file, string $domain) {
-	$url = "$domain/public/$category/$file";
+	$url = "$domain/shared/$category/$file";
 	header("Content-Description: File Transfer");
 	header("Content-Type: application/octet-stream");
 	header("Content-Disposition: attachment; filename=$file");

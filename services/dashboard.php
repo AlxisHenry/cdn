@@ -164,7 +164,7 @@ function generateCategorySection(string $category, bool $background): string
 	 * @var string $titleClass
 	 * @var string $dividerClass
 	 */
-	$sectionClass = $background ? "bg-primary text-white mb-0" : "";
+	$sectionClass = $background ? "bg-primary-light text-white mb-0" : "";
 	$titleClass = $background ? "text-white" : "text-secondary";
 	$dividerClass = $background ? "divider-light" : "";
 	return "<section class='page-section $sectionClass' id='$category'>

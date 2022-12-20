@@ -49,7 +49,7 @@ function generateCategoryContentList(string $category): string
 {
 	$content = getContent($category);
 	$list = "";
-	$domain = ($_SERVER['HTTPS'] ? "https://" : "http://") . $_SERVER['HTTP_HOST'];
+	$domain = (($_SERVER['HTTPS'] ?? false) ? "https://" : "http://") . $_SERVER['HTTP_HOST'];
 	foreach ($content as $item) {
 		$url = $domain . "/shared/$category/$item";
 		$downloadUrl = $domain . "/shared/$category/?file=$item";

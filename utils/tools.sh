@@ -7,7 +7,10 @@ function wait() {
 }
 
 function throw() {
-	echo -e "\n\033[0;31mError\033[0m: ${1}...\n";
+	if [[ "${2}" == "true" ]]; then
+		echo -e "";
+	fi
+	echo -e "\033[0;31mError\033[0m: ${1}...\n";
 	exit 1;
 }
 

@@ -13,7 +13,7 @@ function filenameCorrespondance() {
 	echo -e "Github: https://github.com/AlxisHenry/cdn \n";
 	echo -n "Retrieving files"; wait;
 	if [ -z "${files}" ]; then
-		throw "No files found in \033[36muploads\033[0m.";
+		throw "No files found in \033[36muploads\033[0m." true;
 	fi
 	echo -e "\nWe found the following files in \033[36muploads\033[0m :\n"
 	for file in ${files}
@@ -35,15 +35,17 @@ function fileRequirements() {
 	if [ ! -f "${file}" ]; then
 		throw "File < ${file} > not found";
 	fi
-	if [[ "${force}" == "false" ]]; then
-		if [ ! -s "${file}" ]; then
-			throw "File < ${file} > is empty";
-		elif [ $(wc -c < "${file}") -gt ${max_size_file} ]; then
-			throw "File < ${file} > is too big";
-		fi
-		success "File < ${file} > matches the requirements." true;
+	if [[ "${force}" == "true" ]]; then
+		warning "File < ${file} > accepted because you use the force option.";
 	else
-		success "File < ${file} > matches the requirements.";
+		file_size=$(wc -c < "${file}");
+		if [ ! -s "${file}" ]; then
+			throw "File < ${file} > is empty."
+		elif [ ${file_size} -gt ${max_size_file} ]; then
+			max_size_mo=$((${max_size_file} / 1000000));
+			file_size_mo=$((${file_size} / 1000000));
+			throw "File < ${file} > is too big (${file_size_mo} Mo). Max size is ${max_size_mo} Mo";
+		fi
 	fi
 }
 
@@ -85,6 +87,7 @@ function fileCategory() {
 	then
 		debug "Category: ${category}";
 	fi
+	success "File < ${file} > matches the requirements.";
 	success "File < ${file} > placed in \033[36m${category}\033[0m category." false;
 }
 
@@ -129,6 +132,8 @@ function foreach() {
 		success "File < ${formatted_filename} > uploaded to \033[36m${SSH_DIST}/${category}\033[0m" false;
 		details "You can access to your file at the following url: \033[36m${url}\033[0m";
 		details "You can download your file at the following url: \033[36m${download_url}\033[0m"
+		rm -f ${file_path};
+		details "File < ${formatted_filename} > removed from \033[36muploads\033[0m folder.";
 		echo -e "";
 	done
 	rm -rf uploads/*;

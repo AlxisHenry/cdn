@@ -72,8 +72,19 @@
                 <?= searchResults() ?>
             </div>
 		</section>
+        <section class='page-section bg-primary-light text-white mb-0' id="search">
+            <div class="container">
+                <h2 class='page-section-heading text-center text-uppercase text-white'>Latest uploads</h2>
+                <div class='divider-custom divider-light'>
+                    <div class='divider-custom-line'></div>
+                    <div class='divider-custom-icon'><i class='fas fa-star'></i></div>
+                    <div class='divider-custom-line'></div>
+                </div>
+                <?= latestUploads() ?>
+            </div>
+		</section>
         <?php
-            $background = true;
+            $background = false;
             foreach (getCategories() as $category) {
                 echo generateCategorySection($category, $background);
                 $background = !$background;

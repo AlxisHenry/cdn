@@ -1,5 +1,6 @@
 {
     "require": {
-        "symfony/yaml": "^6.2"
+        "symfony/yaml": "^6.2",
+        "nesbot/carbon": "^2.64"
     }
 }

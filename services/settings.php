@@ -37,18 +37,23 @@ class Dashboard {
 	 * @param array $credentials
 	 * @return void
 	 */
-	private function setAttributes($settings): void
+	private function setAttributes(): void
 	{
-		$this->title = $settings['title'];
-		$this->description = $settings['description'];
-		$this->image = $settings['image'];
-		$this->owner = new Owner($settings['owner']);
+		$this->title = $this->settings['title'];
+		$this->description = $this->settings['description'];
+		$this->image = $this->settings['image'];
+		$this->owner = new Owner($this->settings['owner']);
 	}
 
 
 }
 
 class Owner {
+
+	/**
+	 * @var array $credentials
+	 */
+	private array $credentials;
 
 	/**
 	 * @var string $name
@@ -72,6 +77,7 @@ class Owner {
 
 	public function __construct(array $credentials) 
 	{
+		$this->credentials = $credentials;
 		$this->setAttributes($credentials);
 	}
 
@@ -81,9 +87,9 @@ class Owner {
 	 */
 	private function setAttributes(array $credentials): void
 	 {
-		$this->name = $credentials['name'];
-		$this->firstname = $credentials['firstname'];
-		$this->description = $credentials['description'];
+		$this->name = $this->credentials['name'];
+		$this->firstname = $this->credentials['firstname'];
+		$this->description = $this->credentials['description'];
 		$this->setFullName();
 	}
 

@@ -5,7 +5,12 @@ function upload() {
 	fi
 	ssh ${SSH_USER}@${SSH_ADDR} -p ${SSH_PORT} "sudo chown -R ${SSH_USER}:${SSH_USER} ${SSH_DIST}/${category}";
 	rsync -azP -e "ssh -p ${SSH_PORT}" uploads/${formatted_filename} ${SSH_USER}@${SSH_ADDR}:${SSH_DIST}/${category}/ > /dev/null;
+	ssh ${SSH_USER}@${SSH_ADDR} -p ${SSH_PORT} "touch -t \"$(date +"%Y%m%d%H%M")\" ${SSH_DIST}/${category}/${formatted_filename}";
 	ssh ${SSH_USER}@${SSH_ADDR} -p ${SSH_PORT} "sudo chown -R www-data:www-data ${SSH_DIST}/${category}";
+	if [[ "${debug}" == "true" ]];
+	then
+		debug "Change file edited date to ($(date +"%Y-%m-%d %H:%M")).";
+	fi
 }
 
 function filenameCorrespondance() {
@@ -99,7 +104,12 @@ function foreach() {
 	fi
 	if [[ "${debug}" == "true" ]];
 	then
-		warning "Debug mode is enabled." false;
+		if [[ "${force}" == "true" ]];
+		then
+			warning "Debug mode enabled." false;
+		else
+			warning "Debug mode enabled." true;
+		fi
 	fi
 	echo -e "";
 	for file in ${files}

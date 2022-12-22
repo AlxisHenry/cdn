@@ -219,3 +219,9 @@ a.item {
         flex-direction: column;
     }
 }
+
+@media screen and (max-width: 992px) {
+    .item-description {
+        flex-direction: column;
+    }
+}

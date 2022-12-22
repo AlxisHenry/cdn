@@ -47,7 +47,7 @@ function generateItems(array $items): string
 					data-filepath='/shared/$category/$filename'
 					data-category='$category'
 					data-filename='$filename'>
-					<div class='d-flex justify-content-between mt-1'>
+					<div class='d-flex justify-content-between item-description mt-1'>
 						<div>
 							<a class='item' target='_blank' href='/shared/$category/$filename'>$filename</a>
 							<span>uploaded $updated_at</span>

@@ -22,7 +22,7 @@ html {
     }
 }
 
-div {
+div:not(.swal2-icon) {
     overflow-x: hidden;
     word-wrap: break-word; /* Internet Explorer 5.5+ */
 }
@@ -223,5 +223,11 @@ a.item {
 @media screen and (max-width: 992px) {
     .item-description {
         flex-direction: column;
+        gap: 2px;
+    }
+    .item-main-description {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
     }
 }

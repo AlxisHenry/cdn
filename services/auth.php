@@ -62,6 +62,7 @@ function Swal(): string
             })
         </script>";
     } else if ($swal === "logout") { 
+        session_destroy();
         return "<script>
             Swal.fire({
                 icon: 'success',

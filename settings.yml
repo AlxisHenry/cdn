@@ -1,8 +1,0 @@
-dashboard:
-  title: "CDN - HENRY Alexis"
-  description: "CDN"
-  image: "https://cdn.alexishenry.eu/shared/images/logo.png"
-  owner:
-    name: "Henry"
-    firstname: "Alexis"
-    description: "bash only"

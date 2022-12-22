@@ -1,4 +1,4 @@
-<?php include_once '../services/dashboard.php' ?>
+<?php include_once '../services/dashboard.php';  auth(); ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -7,19 +7,15 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title><?= dashboard()->title ?></title>
-        <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="https://cdn.alexishenry.eu/shared/images/logo.png" />
-        <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-        <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
-        <!-- Core theme CSS (includes Bootstrap)-->
         <link href="./build/css/main.css" rel="stylesheet" />
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     </head>
     <body id="page-top">
-        <!-- Navigation-->
         <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="nav">
             <div class="container">
                 <a class="navbar-brand" href="#page-top"><?= dashboard()->description ?></a>
@@ -30,32 +26,46 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
                         <?php
-                            foreach (getCategories() as $category) {
-                                echo "<li class='nav-item mx-0 mx-lg-1'><a class='nav-link py-3 px-0 px-lg-3 rounded' href='#$category'>".ucfirst($category)."</a></li>";
-                            }
-                        ?>
+                        foreach (getCategories() as $category) {
+                            echo "<li class='nav-item mx-0 mx-lg-1'><a class='nav-link py-3 px-0 px-lg-3 rounded' href='#$category'>".ucfirst($category)."</a></li>";
+                        }
+                        if ($_SESSION['connected'] ?? false) { ?>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="?logout">Logout</a></li>
+                        <?php } else { ?>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#login">Login</a></li>
+                        <?php } ?>
                     </ul>
                 </div>
             </div>
         </nav>
-        <!-- Masthead-->
-        <header class="masthead bg-primary-light text-white text-center">
-            <div class="container d-flex align-items-center flex-column">
-                <!-- Masthead Avatar Image-->
-                <img class="masthead-avatar mb-5" src="<?= dashboard()->image ?>" alt="..." />
-                <!-- Masthead Heading-->
-                <h1 class="masthead-heading text-uppercase mb-0"><?= dashboard()->owner->fullName ?></h1>
-                <!-- Icon Divider-->
-                <div class="divider-custom divider-light">
-                    <div class="divider-custom-line"></div>
-                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-                    <div class="divider-custom-line"></div>
+        <?php if (!($_SESSION['connected'] ?? false)) { ?>
+        <section class='masthead page-section bg-primary-light text-white mb-0' id="login">
+            <div class="container">
+                <h2 class='page-section-heading text-center text-uppercase text-white'>Login</h2>
+                <div class='divider-custom divider-light'>
+                    <div class='divider-custom-line'></div>
+                    <div class='divider-custom-icon'><i class='fas fa-star'></i></div>
+                    <div class='divider-custom-line'></div>
                 </div>
-                <!-- Masthead Subheading-->
-                <p class="masthead-subheading font-weight-light mb-0"><?= dashboard()->owner->description ?></p>
+                <div class="container d-flex justify-content-center">
+                    <form style="width: 700px; max-width: 800px;" method="POST" action="#">
+                        <div class="form-group d-flex flex-column gap-1">
+                            <label for="username">Username</label>
+                            <input type="username" class="form-control" id="username" name="username" placeholder="Username">
+                        </div>
+                        <div class="form-group mt-3 d-flex flex-column gap-1">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-4 w-100" style="height: 50px;">Submit</button>
+                    </form>
+                </div>
             </div>
-        </header>
+        </section>
         <section class='page-section' id="search">
+        <?php } else { ?>
+        <section class='masthead page-section' id="search">
+        <?php } ?>
             <div class="container">
                 <h2 class='page-section-heading text-center text-uppercase'>Search</h2>
                 <div class='divider-custom'>
@@ -71,8 +81,8 @@
                 </div>
                 <?= searchResults() ?>
             </div>
-		</section>
-        <section class='page-section bg-primary-light text-white mb-0' id="search">
+        </section>
+        <section class='page-section bg-primary-light text-white mb-0' id="latest">
             <div class="container">
                 <h2 class='page-section-heading text-center text-uppercase text-white'>Latest uploads</h2>
                 <div class='divider-custom divider-light'>
@@ -90,14 +100,12 @@
                 $background = !$background;
             }
         ?>
-        <!-- Copyright Section-->
         <div class="copyright py-4 text-center text-white">
             <div class="container"><small>&copy; <?= date('Y') . " " . dashboard()->title ?></small></div>
         </div>
-        <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
         <script src="./build/js/scripts.js"></script>
-        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        <script src="./build/js/main.js"></script>
+        <?= Swal(); ?>
     </body>
 </html>

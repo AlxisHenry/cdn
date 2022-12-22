@@ -43,14 +43,26 @@ function generateItems(array $items): string
 		 */
 		$url = $domain . "/shared/$category/$filename";
 		$downloadUrl = $domain . "/shared/$category/?file=$filename";
-		$list .= "<li class='list-group-item d-flex flex-column'>
-					<p>
-						<a class='' target='_blank' href='/shared/$category/$filename'>$filename</a>
-						<span>uploaded $updated_at</span>
-					</p>
+		$list .= "<li class='list-group-item d-flex flex-column' 
+					data-filepath='/shared/$category/$filename'
+					data-category='$category'
+					data-filename='$filename'>
+					<div class='d-flex justify-content-between mt-1'>
+						<div>
+							<a class='item' target='_blank' href='/shared/$category/$filename'>$filename</a>
+							<span>uploaded $updated_at</span>
+						</div>";
+		if ($_SESSION['connected']) {
+			$list .= "
+			<div class='d-flex gap-3' data-token=".$_SESSION['token'].">
+				<div class='edit-item' data-action='edit'><i class='fa-solid fa-pen ml-2' style='cursor: pointer;'></i></div>
+				<div class='delete-item' data-action='delete'><i class='fa-solid fa-trash ml-2' style='cursor: pointer;'></i></div>
+			</div>";
+		}
+		$list .= "</div>
 					<p class='d-flex flex-column text-decoration-none'>
-						<a class='ml-auto p-1 text-decoration-none' target='_blank' href='$url'><i class='fa-solid fa-link'></i> <span>$url</span></a>
-						<a class='ml-auto p-1 text-decoration-none' href='$downloadUrl'><i class='fas fa-download'></i> <span>$downloadUrl</span></a>
+						<a class='ml-auto p-1 text-decoration-none item' target='_blank' href='$url'><i class='fa-solid fa-link'></i> <span>$url</span></a>
+						<a class='ml-auto p-1 text-decoration-none item' href='$downloadUrl'><i class='fas fa-download'></i> <span>$downloadUrl</span></a>
 					</p>
 				</li>";
 	}

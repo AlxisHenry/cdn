@@ -10,6 +10,23 @@ html {
     word-wrap: break-word;
 }
 
+.remove-item-animation {
+    animation: remove-item 0.7s;
+}
+
+@keyframes remove-item {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+a.item {
+    color: var(--light)!important;
+}
+
 .page-section {
     padding: 6rem 0;
     background-color: var(--white)!important;

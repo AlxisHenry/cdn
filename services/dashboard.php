@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+session_start();
 
 $config = require_once __DIR__ . '/../config.php';
 
@@ -11,24 +12,16 @@ if ($config['APP_ENV'] === 'development') {
 }
 
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/settings.php';
-
-use Symfony\Component\Yaml\Yaml;
 
 /**
- * @return Dashboard
+ * Utils functions
  */
-function dashboard(): Dashboard
-{
-	/**
-	 * @var array $settings
-	 * @var Dashboard $dashboard
-	 */
-	$settings = Yaml::parseFile(__DIR__ . '/../settings.yml');
-	$dashboard = new Dashboard($settings['dashboard']);
-	return $dashboard;
-}
+require_once __DIR__ . '/settings.php';
+require_once __DIR__ . '/auth.php';
 
+/**
+ * Helpers functions
+ */
 require_once __DIR__ . '/Helpers/items.php';
 require_once __DIR__ . '/Helpers/categories.php';
 

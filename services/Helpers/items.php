@@ -43,7 +43,7 @@ function generateItems(array $items): string
 		 */
 		$url = $domain . "/shared/$category/$filename";
 		$downloadUrl = $domain . "/shared/$category/?file=$filename";
-		$list .= "<li class='list-group-item d-flex flex-column' 
+		$list .= "<li class='list-group-item d-flex flex-column'
 					data-filepath='/shared/$category/$filename'
 					data-category='$category'
 					data-filename='$filename'>

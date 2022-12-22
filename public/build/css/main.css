@@ -1,13 +1,12 @@
 :root {
     --primary-color: #242b40;
     --light: #464aa6;
-    --white: #F2F2F2;
+    --white: #f2f2f2;
 }
 
 html {
     height: 100%;
     scroll-padding-top: calc(4.5rem - 1px);
-    word-wrap: break-word;
 }
 
 .remove-item-animation {
@@ -23,13 +22,18 @@ html {
     }
 }
 
+div {
+    overflow-x: hidden;
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
+
 a.item {
-    color: var(--light)!important;
+    color: var(--light) !important;
 }
 
 .page-section {
     padding: 6rem 0;
-    background-color: var(--white)!important;
+    background-color: var(--white) !important;
 }
 .page-section .page-section-heading {
     font-size: 2.25rem;
@@ -89,7 +93,7 @@ a.item {
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
         "Noto Color Emoji";
     font-weight: 700;
-    background-color: var(--primary-color)!important;
+    background-color: var(--primary-color) !important;
 }
 
 #nav .navbar-brand {
@@ -197,14 +201,21 @@ a.item {
 .footer {
     padding-top: 5rem;
     padding-bottom: 5rem;
-    background-color: var(--primary-color)!important;
+    background-color: var(--primary-color) !important;
     color: #fff;
 }
 
 .copyright {
-    background-color: var(--primary-color)!important;
+    background-color: var(--primary-color) !important;
 }
 
 .bg-primary-light {
-    background-color: var(--light)!important;
+    background-color: var(--light) !important;
+}
+
+@media screen and (max-width: 500px) {
+    .searchbar form {
+        display: flex;
+        flex-direction: column;
+    }
 }

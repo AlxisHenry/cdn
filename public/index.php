@@ -73,7 +73,7 @@
                     <div class='divider-custom-icon'><i class='fas fa-star'></i></div>
                     <div class='divider-custom-line'></div>
                 </div>
-                <div class="container d-flex justify-content-center mb-5">
+                <div class="container d-flex justify-content-center mb-5 searchbar">
                     <form class="form-inline my-2 my-lg-0 d-flex gap-1" style="width: 70%;" method="GET" action="#search">
                         <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search filename" aria-label="Search" value="<?= $_GET['search'] ?? "" ?>">
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>

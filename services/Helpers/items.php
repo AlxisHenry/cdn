@@ -52,7 +52,7 @@ function generateItems(array $items): string
 							<a class='item' target='_blank' href='/shared/$category/$filename'>$filename</a>
 							<span>uploaded $updated_at</span>
 						</div>";
-		if ($_SESSION['connected']) {
+		if ($_SESSION['connected'] ?? false) {
 			$list .= "
 			<div class='d-flex gap-3' data-token=".$_SESSION['token'].">
 				<div class='edit-item' data-action='edit'><i class='fa-solid fa-pen ml-2' style='cursor: pointer;'></i></div>

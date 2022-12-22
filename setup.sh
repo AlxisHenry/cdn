@@ -27,7 +27,7 @@ function environment() {
 	case ${option} in
 		1|Development|dev) env="development";;
 		2|Production|prod) env="production";;
-		*) environment;;
+		*) env="development";;
 	esac
 }
 
@@ -72,7 +72,9 @@ function credentials() {
 		echo -e "\n\e[0;31mThe password must be at least 8 characters long.\e[0m";
 		credentials;
 	fi
-	hashed_password=$(echo -n "${password}" | sha256sum | cut -d " " -f 1);
+	# Hash the password using the BCRYPT API.
+	bcrypt=$(curl --request POST --data "password=password*123&cost=4" https://www.toptal.com/developers/bcrypt/api/generate-hash.json 2>&1);
+	hashed_password=$(echo ${bcrypt} | awk -F '"hash":"' '{print $2 FS "."}' | cut -d '"' -f 1);
 }
 
 function settings() {

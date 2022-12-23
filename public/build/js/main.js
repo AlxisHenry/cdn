@@ -94,10 +94,12 @@ icons.forEach((icon) => {
                                     text: "Your file has been deleted.",
                                     type: "success"
                                 })
-                                item.classList.add("remove-item-animation");
-                                setTimeout(() => {
-                                    item.remove();
-                                }, 700);
+                                document.querySelectorAll(`[data-filename="${properties.filename}"]`).forEach((item) => {
+                                    item.classList.add("remove-item-animation");
+                                    setTimeout(() => {
+                                        item.remove();
+                                    }, 700);
+                                    });
                             } else {
                                 alert({ type: "error" })
                             }

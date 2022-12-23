@@ -1,5 +1,25 @@
 const icons = document.querySelectorAll(".edit-item, .delete-item");
 
+const alert = (properties) => {
+    const { type, title, text, color } = {
+        type: properties.type,
+        title: properties.title ?? "Oops...",
+        text: properties.text ?? "Something went wrong!",
+        color: properties.type === "success" ? "#464aa6" : "#242b40"
+    };
+    Swal.fire({
+        title: title,
+        text: text,
+        icon: type,
+        iconColor: color,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        allowOutsideClick: true,
+        allowEscapeKey: true,
+        timer: 3000,
+    });
+}
+ 
 icons.forEach((icon) => {
     icon.addEventListener("click", () => {
         let item = icon.parentNode.parentNode.parentNode;
@@ -26,15 +46,25 @@ icons.forEach((icon) => {
                     cancelButtonColor: "#242b40",
                 }).then((response) => {
                     if (response.isConfirmed) {
-                        Swal.fire({
-                            title: "Oupss!",
-                            text: "This feature is not yet implemented",
-                            icon: "error",
-                            iconColor: "#464aa6",
-                            showConfirmButton: false,
-                            timerProgressBar: true,
-                            timer: 3000,
-                        });
+                        fetch("/files.php", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                token: properties.token,
+                            },
+                            body: JSON.stringify({
+                                ...properties,
+                                newFilename: response.value ?? ""
+                            })
+                        }).then((response) => {
+                            if (response.ok) {
+                                location.reload();
+                            } else {
+                                alert({ type: "error" })
+                            }
+                        }).catch(() => {
+                            alert({ type: "error" })
+                        })
                     }
                 });
                 break;
@@ -59,45 +89,20 @@ icons.forEach((icon) => {
                             body: JSON.stringify(properties),
                         }).then((response) => {
                             if (response.ok) {
-                                Swal.fire({
+                                alert({
                                     title: "Deleted!",
                                     text: "Your file has been deleted.",
-                                    icon: "success",
-                                    iconColor: "#464aa6",
-                                    showConfirmButton: false,
-                                    timerProgressBar: true,
-                                    allowOutsideClick: true,
-                                    allowEscapeKey: true,
-                                    timer: 3000,
-                                });
+                                    type: "success"
+                                })
                                 item.classList.add("remove-item-animation");
                                 setTimeout(() => {
                                     item.remove();
                                 }, 700);
                             } else {
-                                Swal.fire({
-                                    title: "Error!",
-                                    text: "Something went wrong.",
-                                    icon: "error",
-                                    iconColor: "#464aa6",
-                                    showConfirmButton: false,
-                                    timerProgressBar: true,
-                                    timer: 3000,
-                                });
+                                alert({ type: "error" })
                             }
-                            response.text().then((text) => {
-                                console.log(text);
-                            })
                         }).catch(() => {
-                            Swal.fire({
-                                title: "Error!",
-                                text: "Something went wrong.",
-                                icon: "error",
-                                iconColor: "#464aa6",
-                                showConfirmButton: false,
-                                timerProgressBar: true,
-                                timer: 3000,
-                            });
+                            alert({ type: "error" })
                         })
                     }
                 });

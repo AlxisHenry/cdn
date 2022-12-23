@@ -73,6 +73,17 @@ function Swal(): string
                 timer: 3000
             })
         </script>";
+    } else if ($swal === "file_renamed") { 
+        return "<script>
+            Swal.fire({
+                icon: 'success',
+                title: 'File renamed',
+                text: 'The file has been renamed',
+                showConfirmButton: true,
+                timerProgressBar: true,
+                timer: 3000
+            })
+        </script>";
     }
 	return '';
 }

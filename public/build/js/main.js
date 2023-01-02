@@ -50,7 +50,6 @@ icons.forEach((icon) => {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
-                                token: properties.token,
                             },
                             body: JSON.stringify({
                                 ...properties,
@@ -65,7 +64,6 @@ icons.forEach((icon) => {
                                 }
                             })
                             .catch(() => {
-                                console.log(response);
                                 alert({ type: "error" });
                             });
                     }
@@ -87,7 +85,6 @@ icons.forEach((icon) => {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
-                                token: properties.token,
                             },
                             body: JSON.stringify(properties),
                         })
@@ -143,10 +140,10 @@ if (zip) {
     });
 }
 
-const downloadButton = document.querySelector("#download-button");
+const download = document.querySelector("#download-button");
 
-if (downloadButton) {
-    downloadButton.addEventListener("click", () => {
+if (download) {
+    download.addEventListener("click", () => {
         const activeItems = document.querySelectorAll(".active-item");
         if (!activeItems || activeItems.length === 0) {
             alert({ type: "error", text: "No files selected." });
@@ -155,38 +152,20 @@ if (downloadButton) {
         let properties = {
             action: "zip",
             items: [].map.call(activeItems, (item) => {
-                return {
-                    filename: item.dataset.filename,
-                    filepath: item.dataset.filepath,
-                }
+                return item.dataset.filepath;
             }),
         };
-        console.log(properties);
-        fetch("/files.php", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(properties),
-        })
-            .then((response) => {
-                if (response.ok) {
-                    alert({
-                        title: "Zipped!",
-                        text: "Your files have been zipped.",
-                        type: "success",
-                    });
-                    document
-                        .querySelectorAll(".active-item")
-                        .forEach((item) => {
-                            item.classList.remove("active-item");
-                        });
-                } else {
-                    alert({ type: "error" });
-                }
-            })
-            .catch(() => {
-                alert({ type: "error" });
-            });
+        const uri =
+            "/files.php?action=zip&items=" + JSON.stringify(properties.items);
+        const encoded = encodeURI(uri);
+        location.href = encoded;
+        alert({
+            title: "Downloaded!",
+            text: "Your files have been downloaded.",
+            type: "success",
+        });
+        document.querySelectorAll(".active-item").forEach((item) => {
+            item.classList.remove("active-item");
+        });
     });
 }

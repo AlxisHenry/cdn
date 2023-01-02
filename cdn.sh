@@ -25,15 +25,18 @@
 # - The file will be uploaded to the cdn in the folder "shared".
 # - The file will be deleted from the folder "uploads" after the upload.
 
+# Some tips:
+# - You can create an alias to run this script.
+
 # Don't forget to change the variables in the file ".env" before using this script.
 
 # For more details about the cdn :
 # - Read the readme.
 # - Read the source code.
 
-source .env;
-source utils/tools.sh
-source utils/func.sh;
+source $(dirname "$0")/.env
+source $(dirname "$0")/utils/tools.sh
+source $(dirname "$0")/utils/func.sh;
 
 # Options (you can add or remove options in the file "utils/args.sh"):
 # -h, --help: Display the help.
@@ -41,7 +44,7 @@ source utils/func.sh;
 # -d, --debug: Display the debug messages.
 # -f, --force: Force the upload of the files (skip some checks).
 
-source utils/args.sh;
+source  $(dirname "$0")/utils/args.sh;
 
 # Allowed extensions:
 # - File: pdf md txt

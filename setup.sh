@@ -85,11 +85,6 @@ user:
 dashboard:
   title: ""
   description: ""
-  image: ""
-  owner:
-    name: ""
-    firstname: ""
-    description: ""
 EOF
 success "Settings file created successfully" true;
 success "Account created successfully" true;

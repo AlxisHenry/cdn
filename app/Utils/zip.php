@@ -11,9 +11,9 @@ function createZipAndDownload(array $items): void
 	$zip = new ZipArchive();
 
 	$zipFilename = "cdn-" . time() . ".zip";
-	$zipFilepath = "./archives/";
+	$zipFilepath = "./archives";
 
-	$zipFile = "$zipFilepath.$zipFilename";
+	$zipFile = "$zipFilepath/$zipFilename";
 
 	if (!$zip->open($zipFile, ZipArchive::CREATE)) {
 		throw new Exception('Could not open zip file.');	

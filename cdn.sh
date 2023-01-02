@@ -62,6 +62,9 @@ max_size_file=50000000 # 50MB
 
 # The script is not perfect, but it works. If you have any suggestions, feel free to contact me.
 
+# Check if you configure correctly your ssh credentials.
+crendentialsCheck;
+
 # Check if filename are corresponding with the files in the folder "uploads".
 filenameCorrespondance ${files};
 

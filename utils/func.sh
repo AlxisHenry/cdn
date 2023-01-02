@@ -1,3 +1,10 @@
+function crendentialsCheck() {
+	ssh -q -o BatchMode=yes -o ConnectTimeout=2 ${SSH_USER}@${SSH_ADDR} -p ${SSH_PORT} exit
+	if [ $? -ne 0 ]; then
+		throw "Unable to connect to the server. Please check your ssh credentials." true;
+	fi
+}
+
 function upload() {	
 	if [[ "${debug}" == "true" ]]; 
 	then

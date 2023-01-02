@@ -1,6 +1,6 @@
 <?php
 
-include_once '../services/dashboard.php';
+include_once '../app/dashboard.php';
 
 if (!in_array($_SERVER['REQUEST_METHOD'], ['POST', 'DELETE', 'PUT'])) {
 	header('HTTP/1.1 500 Internal Server Error - Invalid Request Method', true, 500);
@@ -14,13 +14,18 @@ if (isset($body['action'])) {
 	$action = $body['action'];
 	$token = $body['token'] ?? null;
 
+	if (!$token && ($body['action'] === "zip")) {
+		$token = bin2hex(random_bytes(32));
+		$_SESSION['token'] = $token;
+	}
+
 	if (!isset($_SESSION['token']) || ($token !== $_SESSION['token'])) {
 		header('HTTP/1.1 500 Internal Server Error - Invalid Token', true, 500);
 		die();
 	}
 
-	$path = "." . $body['filepath'];
-			
+	$path = "." . ($body['filepath'] ?? "");
+
 	switch ($body['action']) {
 		case 'delete':
 			unlink($path);
@@ -44,6 +49,9 @@ if (isset($body['action'])) {
 					die();
 				}
 			}
+			break;
+		case 'zip':
+			createZipAndDownload($body['items']);
 			break;
 	}
 

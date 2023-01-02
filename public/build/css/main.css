@@ -231,3 +231,46 @@ a.item {
         gap: 2px;
     }
 }
+
+.item-container {
+    padding: 20px!important;
+}
+
+.active-item {
+    animation: activeItem 0.2s ease-in forwards;
+}
+
+.cancel-active-item {
+    animation: cancelActiveItem 0.2s ease-in forwards;
+}
+
+@keyframes activeItem {
+    0% {
+        border-color: #00000020;
+    }
+    100% {
+        /* top | right | bottom | left */
+        border-width: 1px 1px .5px 1px;
+        border-color: var(--light);
+    }
+}
+
+@keyframes cancelActiveItem {
+    0% {
+        border-width: 1px 1px .5px 1px;
+        border-color: var(--light);
+    } 
+    100% {
+        border-color: #00000020;
+        border-width: 1px;
+    }
+}
+
+.download-btn {
+    font-size: 20px!important;
+    background-color:  var(--light)!important;
+}
+
+.download-btn:hover {
+    opacity: calc(100% - 10%);
+}

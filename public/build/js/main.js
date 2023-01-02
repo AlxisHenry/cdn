@@ -5,7 +5,7 @@ const alert = (properties) => {
         type: properties.type,
         title: properties.title ?? "Oops...",
         text: properties.text ?? "Something went wrong!",
-        color: properties.type === "success" ? "#464aa6" : "#242b40"
+        color: properties.type === "success" ? "#464aa6" : "#242b40",
     };
     Swal.fire({
         title: title,
@@ -18,8 +18,8 @@ const alert = (properties) => {
         allowEscapeKey: true,
         timer: 3000,
     });
-}
- 
+};
+
 icons.forEach((icon) => {
     icon.addEventListener("click", () => {
         let item = icon.parentNode.parentNode.parentNode;
@@ -54,17 +54,20 @@ icons.forEach((icon) => {
                             },
                             body: JSON.stringify({
                                 ...properties,
-                                newFilename: response.value ?? ""
-                            })
-                        }).then((response) => {
-                            if (response.ok) {
-                                location.reload();
-                            } else {
-                                alert({ type: "error" })
-                            }
-                        }).catch(() => {
-                            alert({ type: "error" })
+                                newFilename: response.value ?? "",
+                            }),
                         })
+                            .then((response) => {
+                                if (response.ok) {
+                                    location.reload();
+                                } else {
+                                    alert({ type: "error" });
+                                }
+                            })
+                            .catch(() => {
+                                console.log(response);
+                                alert({ type: "error" });
+                            });
                     }
                 });
                 break;
@@ -87,28 +90,103 @@ icons.forEach((icon) => {
                                 token: properties.token,
                             },
                             body: JSON.stringify(properties),
-                        }).then((response) => {
-                            if (response.ok) {
-                                alert({
-                                    title: "Deleted!",
-                                    text: "Your file has been deleted.",
-                                    type: "success"
-                                })
-                                document.querySelectorAll(`[data-filename="${properties.filename}"]`).forEach((item) => {
-                                    item.classList.add("remove-item-animation");
-                                    setTimeout(() => {
-                                        item.remove();
-                                    }, 700);
-                                    });
-                            } else {
-                                alert({ type: "error" })
-                            }
-                        }).catch(() => {
-                            alert({ type: "error" })
                         })
+                            .then((response) => {
+                                if (response.ok) {
+                                    alert({
+                                        title: "Deleted!",
+                                        text: "Your file has been deleted.",
+                                        type: "success",
+                                    });
+                                    document
+                                        .querySelectorAll(
+                                            `[data-filename="${properties.filename}"]`
+                                        )
+                                        .forEach((item) => {
+                                            item.classList.add(
+                                                "remove-item-animation"
+                                            );
+                                            setTimeout(() => {
+                                                item.remove();
+                                            }, 700);
+                                        });
+                                } else {
+                                    alert({ type: "error" });
+                                }
+                            })
+                            .catch(() => {
+                                alert({ type: "error" });
+                            });
                     }
                 });
                 break;
         }
     });
 });
+
+const zip = document.querySelector("#zip");
+
+if (zip) {
+    const zipItems = zip.querySelectorAll("li");
+    zipItems.forEach((item) => {
+        item.addEventListener("click", () => {
+            if (item.classList.contains("active-item")) {
+                item.classList.remove("active-item");
+                item.classList.add("cancel-active-item");
+                setTimeout(() => {
+                    item.classList.remove("cancel-active-item");
+                }, 500);
+            } else {
+                item.classList.add("active-item");
+            }
+        });
+    });
+}
+
+const downloadButton = document.querySelector("#download-button");
+
+if (downloadButton) {
+    downloadButton.addEventListener("click", () => {
+        const activeItems = document.querySelectorAll(".active-item");
+        if (!activeItems || activeItems.length === 0) {
+            alert({ type: "error", text: "No files selected." });
+            return;
+        }
+        let properties = {
+            action: "zip",
+            items: [].map.call(activeItems, (item) => {
+                return {
+                    filename: item.dataset.filename,
+                    filepath: item.dataset.filepath,
+                }
+            }),
+        };
+        console.log(properties);
+        fetch("/files.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(properties),
+        })
+            .then((response) => {
+                if (response.ok) {
+                    alert({
+                        title: "Zipped!",
+                        text: "Your files have been zipped.",
+                        type: "success",
+                    });
+                    document
+                        .querySelectorAll(".active-item")
+                        .forEach((item) => {
+                            item.classList.remove("active-item");
+                        });
+                } else {
+                    alert({ type: "error" });
+                }
+            })
+            .catch(() => {
+                alert({ type: "error" });
+            });
+    });
+}

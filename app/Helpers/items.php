@@ -23,9 +23,10 @@ function getItems(): array
  * Generate items for the given array of items
  * 
  * @param array $items
+ * @param bool $html
  * @return string
  */
-function generateItems(array $items): string
+function generateItems(array $items, bool $html =  false): string
 {
 	/**
 	 * @var string $list
@@ -33,6 +34,7 @@ function generateItems(array $items): string
 	 */
 	$list = "";
 	$domain = (($_SERVER['HTTPS'] ?? false) ? "https://" : "http://") . $_SERVER['HTTP_HOST'];
+	if (empty($items)) return htmlFormat("<li class='list-group-item'>No items found</li>");
 	foreach ($items as $item) {
 		$category = $item['category'];
 		$filename = $item['filename'];
@@ -43,7 +45,7 @@ function generateItems(array $items): string
 		 */
 		$url = $domain . "/shared/$category/$filename";
 		$downloadUrl = $domain . "/shared/$category/?file=$filename";
-		$list .= "<li class='list-group-item d-flex flex-column'
+		$list .= "<li class='list-group-item item-container d-flex flex-column gap-2'
 					data-filepath='/shared/$category/$filename'
 					data-category='$category'
 					data-filename='$filename'>
@@ -66,7 +68,7 @@ function generateItems(array $items): string
 					</p>
 				</li>";
 	}
-	return $list;
+	return $html ? htmlFormat($list) : $list;
 }
 
 /**
@@ -131,4 +133,38 @@ function generateSearchContentList(string $search): bool|string
 	$correspondingItems = getItemsCorrespondingToSearch($search);
 	if (count($correspondingItems) <= 0 || !$correspondingItems) return false;
 	return generateItems($correspondingItems);
+}
+
+/**
+ * Generate HTML for the latests uploaded items
+ * 
+ * @param int $limit
+ * @return string
+ */
+function latestUploads(int $limit = 6): string
+{
+	$latestUploadedItems = generateItems(getLatestItems($limit));
+	if (!$latestUploadedItems) $latestUploadedItems = "<li class='list-group-item'>No result found</li>";
+	return htmlFormat($latestUploadedItems);
+}
+
+/**
+ * Generate HTML for the results of the research
+ * 
+ * @return string
+ */
+function searchResults(): string
+{
+	/**
+	 * @var string $search
+	 * @var string $results
+	 */
+	$search = $_GET['search'] ?? null;
+	if (!isset($search) || $search === "") {
+		$results = "<li class='list-group-item'>No search term provided</li>";
+	} else {
+		$results = generateSearchContentList($search);
+		if (!$results) $results = "<li class='list-group-item'>No result found</li>";
+	}
+	return htmlFormat($results);
 }

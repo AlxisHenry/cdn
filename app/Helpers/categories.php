@@ -64,6 +64,36 @@ function generateCategoryItemsList(string $category): string
 	 */
 	$items = getCategoryItems($category);
 	$list = generateItems($items, $category);
-	if (empty($list)) $list = "<li class='list-group-item'>No content available</li>";
-	return "<ul class='list-group'>$list</ul>";
+	return $list;
+}
+
+/**
+ * Generate HTML of the section of a given category
+ * 
+ * @param string $category
+ * @param bool $background
+ * @return string
+ */
+function generateCategorySection(string $category, bool $background): string
+{	
+	/**
+	 * @var string $sectionClass
+	 * @var string $titleClass
+	 * @var string $dividerClass
+	 */
+	$sectionClass = $background ? "bg-primary-light text-white mb-0" : "";
+	$titleClass = $background ? "text-white" : "";
+	$dividerClass = $background ? "divider-light" : "";
+	return "<section class='page-section $sectionClass' id='$category'>
+			<div class='container'>
+				<h2 class='page-section-heading text-center text-uppercase $titleClass'>".ucfirst($category)."</h2>
+				<!-- Icon Divider-->
+				<div class='divider-custom $dividerClass'>
+					<div class='divider-custom-line'></div>
+					<div class='divider-custom-icon'><i class='fas fa-star'></i></div>
+					<div class='divider-custom-line'></div>
+				</div>
+				".generateCategoryItemsList($category)."
+			</div>
+		</section>";
 }

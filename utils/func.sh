@@ -11,7 +11,7 @@ function upload() {
 		debug "Ssh credentials: ${SSH_USER}@${SSH_ADDR} -p ${SSH_PORT} -t ${SSH_DIST}";
 	fi
 	ssh ${SSH_USER}@${SSH_ADDR} -p ${SSH_PORT} "sudo chown -R ${SSH_USER}:${SSH_USER} ${SSH_DIST}/${category}";
-	rsync -azP -e "ssh -p ${SSH_PORT}" uploads/${formatted_filename} ${SSH_USER}@${SSH_ADDR}:${SSH_DIST}/${category}/ > /dev/null;
+	rsync -azP -e "ssh -p ${SSH_PORT}" ${file} ${SSH_USER}@${SSH_ADDR}:${SSH_DIST}/${category}/ > /dev/null;
 	ssh ${SSH_USER}@${SSH_ADDR} -p ${SSH_PORT} "touch -t \"$(date +"%Y%m%d%H%M")\" ${SSH_DIST}/${category}/${formatted_filename}";
 	ssh ${SSH_USER}@${SSH_ADDR} -p ${SSH_PORT} "sudo chown -R www-data:www-data ${SSH_DIST}/${category}";
 	if [[ "${debug}" == "true" ]];
@@ -30,7 +30,7 @@ function filenameCorrespondance() {
 	echo -e "\nWe found the following files in \033[36muploads\033[0m :\n"
 	for file in ${files}
 	do
-		filename=$(echo ${file} | cut -d '/' -f 2);
+		filename=$(echo ${file} | rev | cut -d "/" -f 1 | rev);
 		echo -e "- ${filename}";
 	done
 	warning "For safety reasons be sure you doens't have any special characters in the name of the file." true;
@@ -124,21 +124,22 @@ function foreach() {
 		fileRequirements ${file};
 		fileCategory ${file};
 		# Format in different way the filename
-		file_path=${file};
-		filename=$(echo ${file} | cut -d '/' -f 2);
-		formatted_filename=$(echo ${file} | cut -d '/' -f 2 | tr '[:upper:]' '[:lower:]' | iconv -f utf8 -t ascii//TRANSLIT//IGNORE | tr ' ' '_');
+		filename=$(echo ${file} | rev | cut -d "/" -f 1 | rev);
+		formatted_filename=$(echo ${file} | rev | cut -d "/" -f 1 | rev | tr '[:upper:]' '[:lower:]' | iconv -f utf8 -t ascii//TRANSLIT//IGNORE | tr ' ' '_');
 		if [[ "${debug}" == "true" ]];
 		then
-		 	debug "File path: ${file_path}";
-			debug "File name: ${filename}";
-			debug "Formatted file name: ${formatted_filename}";
+			debug "File: ${file}";
+			debug "Filename: ${filename}";
+			debug "Formatted filename: ${formatted_filename}";
 		fi
 		# Rename the file if it's not already formatted
 		if [[ "${filename}" != "${formatted_filename}" ]]; then
 			success "File < ${filename} > formatted and renamed to < ${formatted_filename} >" false;
-			mv ${file_path} uploads/${formatted_filename}
+			filepath="$(echo ${file} | rev | cut -d "/" -f 2- | rev)/${formatted_filename}";
+			debug "New file path: ${filepath}"
+			mv ${file} ${filepath}; 
 		fi
-		upload ${formatted_filename} ${category};
+		upload ${formatted_filename} ${category};	
 		url="${CDN_URL}/${category}/${formatted_filename}";
 		download_url="${CDN_URL}/${category}?file=${formatted_filename}";
 		if [[ "${debug}" == "true" ]];
@@ -149,7 +150,7 @@ function foreach() {
 		success "File < ${formatted_filename} > uploaded to \033[36m${SSH_DIST}/${category}\033[0m" false;
 		details "You can access to your file at the following url: \033[36m${url}\033[0m";
 		details "You can download your file at the following url: \033[36m${download_url}\033[0m"
-		rm -f ${file_path};
+		rm -f ${file};
 		details "File < ${formatted_filename} > removed from \033[36muploads\033[0m folder.";
 		echo -e "";
 	done

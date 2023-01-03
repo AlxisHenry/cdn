@@ -26,7 +26,7 @@ function httpMethod(array $except): void
  */
 function actionConformity(string $action): void
 {
-	if (!in_array($action, ['delete', 'edit', 'zip'])) {
+	if (!in_array($action, ['delete', 'edit', 'zip', 'upload'])) {
 		header('HTTP/1.1 400 Bad Request', true, 400);
 		throw new Exception('Invalid action specified.');
 	}
@@ -35,34 +35,56 @@ function actionConformity(string $action): void
 /**
  * Check token validity
  *
+ * @var string $token
  * @throws Exception
  * @return void
  */
-function tokenConformity(): void
+function tokenConformity(string $token): void
 {
-	$token = json_decode(file_get_contents('php://input'), true)['token'] ?? null;
 	if (($_SESSION['token'] ?? false) !== $token) {
 		header('HTTP/1.1 403 Forbidden', true, 403);
 		throw new Exception('Invalid token.');
 	}
 }
 
-$action = json_decode(file_get_contents('php://input'), true)['action'] ?? $_GET['action'] ?? null;
+/**
+ * @var array $body
+ * @var bool $post
+ * @var bool $get
+ * @var bool $php_input
+ */
+$body = [];
+$post = false;
+$get = false;
+$php_input = false;
+
+if (isset($_POST['action'])) {
+	$post = true;
+	$action = $_POST['action'];
+	$body = $_POST;
+} elseif (isset(json_decode(file_get_contents('php://input'), true)['action'])) {
+	$php_input = true;
+	$action = json_decode(file_get_contents('php://input'), true)['action'];
+	$body = json_decode(file_get_contents('php://input'), true);
+} else {	
+	$get = true;
+	$action = $_GET['action'];
+	$body = $_GET;
+}
 
 actionConformity($action);
 
 switch ($action) {
 	case 'delete':
 		httpMethod(['POST']);
-		tokenConformity();
-		$filepath = json_decode(file_get_contents('php://input'), true)['filepath'];
+		tokenConformity($body['token']);
+		$filepath = $body['filepath'];
 		$path = "." . $filepath;
 		unlink($path);
 		break;
 	case 'edit':
 		httpMethod(['POST']);
-		tokenConformity();
-		$body = json_decode(file_get_contents('php://input'), true);
+		tokenConformity($body['token']);
 		$filepath = $body['filepath'];
 		$path = "." . $filepath;
 		$newFilename = $body['newFilename'];
@@ -83,12 +105,23 @@ switch ($action) {
 		break;
 	case 'zip':
 		httpMethod(['GET']);
-		$items = $_GET["items"];
+		$items = $body["items"];
 		$f = explode(',', $items);
 		$files = [];
 		foreach ($f as $r) {
 			$files[] = trim($r, '"[]');
 		}
 		createZipAndDownload($files);
+		break;
+	case 'upload':
+		httpMethod(['POST']);
+		tokenConformity($body['token']);
+		// $uploadDir = __DIR__ . '/../../public/uploads/';
+		// $uploadFile = $uploadDir . basename($_FILES['file']['name']);
+		// if (file_exists($uploadFile)) {
+		// 	throw new Exception('File already exists.');
+		// } elseif (!move_uploaded_file($_FILES['file']['tmp_name'], $uploadFile)) {
+		// 	throw new Exception('Could not upload file.');
+		// }
 		break;
 }

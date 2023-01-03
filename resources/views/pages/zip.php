@@ -1,8 +1,4 @@
-<?php if (!($_SESSION['connected'] ?? false)) { ?>
-    <section class='page-section' id="zip">
-<?php } else { ?>
-    <section class='masthead page-section' id="zip">
-<?php } ?>
+<section class='<?= !Auth::check() ?: 'masthead' ?> page-section' id="zip">
 	<div class="container">
 		<h2 class='page-section-heading text-center text-uppercase'>Archive</h2>
 		<div class='divider-custom'>

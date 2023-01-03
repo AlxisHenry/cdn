@@ -7,7 +7,8 @@ class Route {
 	 */
 	private static array $routes = [
 		0 => '',
-		1 => 'archive'
+		1 => 'archive',
+		2 => 'upload',
 	];
 	
 	/**
@@ -46,8 +47,10 @@ class Route {
 			case 'archive':
 				include_once "$viewPath/zip.php";
 				break;
+			case 'upload':
+				include_once "$viewPath/upload.php";
+				break;
 			default:
-				header('HTTP/1.0 404 Not Found');
 				break;
 		}
 	}

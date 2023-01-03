@@ -27,6 +27,7 @@
 					<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/#search">Search</a></li>
 					<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/#latest">Latest uploads</a></li>
 					<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/archive">Archive</a></li>
+					<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/upload">Upload</a></li>
 					<?php
 					if ($_SESSION['connected'] ?? false) { ?>
 						<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="?logout">Logout</a></li>
@@ -37,7 +38,7 @@
 				</div>
 			</div>
 		</nav>
-		<?php if (!($_SESSION['connected'] ?? false)) { ?>
+		<?php if (!Auth::check()) { ?>
 		<section class='masthead page-section bg-primary-light text-white mb-0' id="login">
 			<div class="container">
 				<h2 class='page-section-heading text-center text-uppercase text-white'>Login</h2>

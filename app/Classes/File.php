@@ -6,7 +6,7 @@ class File {
 	 * @var array<array<String>> ALLOWED_EXTENSIONS
 	 */
 	const ALLOWED_EXTENSIONS = [
-		'files' => ['pdf', 'md', 'txt', 'yml', 'json', 'yaml'],
+		'files' => ['pdf', 'md', 'txt', 'yml', 'json', 'yaml', 'css', 'js'],
 		'images' => ['jpg', 'jpeg', 'png', 'gif', 'svg'],
 		'videos' => ['mp4', 'webm']
 	];
@@ -92,7 +92,11 @@ class File {
 	{
 		foreach (self::ALLOWED_EXTENSIONS as $category => $extensions) {
 			if (in_array($this->getExtension(), $extensions)) {
-				$this->category = $category;
+				if ($this->getExtension() === "pdf") {
+					$this->category = "pdf";
+				} else {
+					$this->category = $category;
+				}
 				return true;
 			}
 		}

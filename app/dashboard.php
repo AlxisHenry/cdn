@@ -3,8 +3,6 @@
 declare(strict_types=1);
 session_start();
 
-$config = require_once __DIR__ . '/../config.php';
-
 if ($config['APP_ENV'] === 'development') {
 	error_reporting(E_ALL);
 	ini_set('display_errors', '1');
@@ -21,14 +19,12 @@ require_once __DIR__ . '/Classes/Route.php';
 require_once __DIR__ . '/Classes/Auth.php';
 require_once __DIR__ . '/Classes/Dashboard.php';
 require_once __DIR__ . '/Classes/User.php';
+require_once __DIR__ . '/Classes/File.php';
 
 /**
  * Utils
  */
-require_once __DIR__ . '/Utils/settings.php';
-require_once __DIR__ . "/Utils/swal.php";
-require_once __DIR__ . '/Utils/html.php';
-require_once __DIR__ . '/Utils/zip.php';
+require_once __DIR__ . '/Utils/functions.php';
 
 /**
  * Helpers

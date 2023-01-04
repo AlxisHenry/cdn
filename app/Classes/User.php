@@ -10,12 +10,12 @@ class User {
 	/**
 	 * @var string $username
 	 */
-	public readonly string $username;
+	public string $username;
 
 	/**
 	 * @var string $password (hashed)
 	 */
-	public readonly string $password;
+	public string $password;
 
 	/**
 	 * @param array $credentials

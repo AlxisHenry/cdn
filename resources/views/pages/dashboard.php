@@ -1,8 +1,4 @@
-<?php if (!($_SESSION['connected'] ?? false)) { ?>
-    <section class='page-section' id="search">
-<?php } else { ?>
-	<section class='masthead page-section' id="search">
-<?php } ?>
+<section class='<?= !Auth::check() ?: 'masthead' ?> page-section' id="search">
     <div class="container">
 		<h2 class='page-section-heading text-center text-uppercase'>Search</h2>
 		<div class='divider-custom'>

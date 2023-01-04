@@ -23,7 +23,7 @@ class Auth {
     /**
      * @return void
      */
-    public static function check(): void
+    public static function load(): void
     {
         $auth = new Auth();
         if (isset($_GET['logout'])) {
@@ -31,6 +31,14 @@ class Auth {
         } else if (isset($_POST['username']) && isset($_POST['password'])) {
             $auth->login();
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public static function check(): bool
+    {
+        return ($_SESSION['connected'] ?? false);
     }
 
     /**

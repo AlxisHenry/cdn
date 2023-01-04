@@ -19,6 +19,7 @@ require_once __DIR__ . '/Classes/Route.php';
 require_once __DIR__ . '/Classes/Auth.php';
 require_once __DIR__ . '/Classes/Dashboard.php';
 require_once __DIR__ . '/Classes/User.php';
+require_once __DIR__ . '/Classes/File.php';
 
 /**
  * Utils

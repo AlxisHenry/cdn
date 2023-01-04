@@ -91,6 +91,26 @@ function swal(?string $type = null): string
                 timer: 3000
             })
         </script>",
+		'file_uploaded' => "<script>
+			Swal.fire({
+				icon: 'success',
+				title: 'File uploaded',
+				text: 'The file has been uploaded',
+				showConfirmButton: true,
+				timerProgressBar: true,
+				timer: 3000
+			})
+		</script>",
+		'file_upload_failed' => "<script>
+			Swal.fire({
+				icon: 'error',
+				title: 'File upload failed',
+				text: 'The file has not been uploaded',
+				showConfirmButton: true,
+				timerProgressBar: true,
+				timer: 3000
+			})
+		</script>",
         default => '',
     };
 }

@@ -116,12 +116,12 @@ switch ($action) {
 	case 'upload':
 		httpMethod(['POST']);
 		tokenConformity($body['token']);
-		// $uploadDir = __DIR__ . '/../../public/uploads/';
-		// $uploadFile = $uploadDir . basename($_FILES['file']['name']);
-		// if (file_exists($uploadFile)) {
-		// 	throw new Exception('File already exists.');
-		// } elseif (!move_uploaded_file($_FILES['file']['tmp_name'], $uploadFile)) {
-		// 	throw new Exception('Could not upload file.');
-		// }
+		$file = new File($_FILES['file']);
+		if ($file->upload()) {
+			setcookie('swal', 'file_uploaded', time() + 1, '/');
+		} else {
+			setcookie('swal', 'file_upload_failed', time() + 1, '/');
+		}
+		header('Location: ' . $_SERVER['HTTP_REFERER']);
 		break;
 }

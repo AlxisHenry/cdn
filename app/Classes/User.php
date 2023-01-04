@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 class User {
 	
 	/**
-	 * @var array $credentials
+	 * @var array<string,string> $credentials
 	 */
 	private array $credentials;
 
@@ -13,17 +15,19 @@ class User {
 	public string $username;
 
 	/**
-	 * @var string $password (hashed)
+	 * @var string $password
 	 */
 	public string $password;
 
 	/**
-	 * @param array $credentials
+	 * @param array<string,string> $credentials
 	 */
 	public function __construct(array $credentials)
 	{
 		$this->credentials = $credentials;
-		$this->setAttributes();
+		$this->requirements();
+		$this->username = $this->credentials['username'];
+		$this->password = $this->credentials['password'];
 	}
 
 	/**
@@ -36,15 +40,19 @@ class User {
 	}
 
 	/**
-	 * @param array $credentials
-	 * @throws Exception
-	 * @return void
+	 * @return string
 	 */
-	private function setAttributes(): void
+	public function getUsername(): string
 	{
-		$this->requirements();
-		$this->username = $this->credentials['username'];
-		$this->password = $this->credentials['password'];
+		return $this->username;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPassword(): string
+	{
+		return $this->password;
 	}
 
 }

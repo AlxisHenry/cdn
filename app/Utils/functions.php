@@ -1,6 +1,6 @@
 <?php
 
-use Symfony\Component\Yaml\Yaml;
+declare(strict_types=1);
 
 /** 
  * @param string $element
@@ -10,34 +10,6 @@ use Symfony\Component\Yaml\Yaml;
 function htmlFormat(string $element, string $type = "ul"): string
 {
 	return "<$type class='list-group'>$element</$type>";
-}
-
-/**
- * @return Dashboard
- */
-function dashboard(): Dashboard
-{
-	/**
-	 * @var array $settings
-	 * @var Dashboard $dashboard
-	 */
-	$settings = Yaml::parseFile(__DIR__ . '/../../settings.yml');
-	$dashboard = new Dashboard($settings['dashboard']);
-	return $dashboard;
-}
-
-/**
- * @return User
- */
-function user(): User
-{
-	/**
-	 * @var array $settings
-	 * @var User $user
-	 */
-	$settings = Yaml::parseFile(__DIR__ . '/../../settings.yml');
-	$user = new User($settings['user']);
-	return $user;
 }
 
 /**
@@ -116,26 +88,15 @@ function swal(?string $type = null): string
 }
 
 /**
- * @param array $files
+ * @param array<string> $files
  * @throws Exception
  * @return void
  */
 function createZipAndDownload(array $files): void
 {
-	/**
-	 * Create instance of ZipArchive. and open the zip folder.
-	 * 
-	 * @var ZipArchive $zip
-	 */
+
 	$zip = new ZipArchive();
 
-	/**
-	 * Create the zip file name and path
-	 * 
-	 * @var string $zipFilename
-	 * @var string $zipFilepath
-	 * @var string $zipFile
-	 */
 	$zipFilename = "cdn-" . time() . ".zip";
 	$zipFilepath = "./archives";
 	$zipFile = "$zipFilepath/$zipFilename";
@@ -164,13 +125,10 @@ function createZipAndDownload(array $files): void
 /**
  * @param string $key
  * @throws Exception
- * @return string|int
+ * @return string
  */
-function config(string $key): string|int
+function config(string $key): string
 {
-	/**
-	 * @var array $settings
-	 */
 	$config = require __DIR__ . '/../../config.php';
 	if (isset($config[$key])) return $config[$key];
 	throw new Exception("The key $key does not exist in the config file.");
@@ -180,12 +138,13 @@ function config(string $key): string|int
  * @param string $size
  * @param bool $round
  * @throws Exception
- * @return string|int
+ * @return string
  */
 function formatFilesize(string $size, bool $round = true): string
 {
 	$b = $round ? 1000 : 1024;
 	$units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
 	for ($i = 0; $size > $b; $i++) $size /= $b;
+	/** @phpstan-ignore-next-line */
 	return round($size, 2) . ' ' . $units[$i];
 }

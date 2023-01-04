@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 class File {
 	
 	/**
-	 * @var array<array<String>> ALLOWED_EXTENSIONS
+	 * @var array<String,array<String>> ALLOWED_EXTENSIONS
 	 */
 	const ALLOWED_EXTENSIONS = [
 		'files' => ['pdf', 'md', 'txt', 'yml', 'json', 'yaml', 'css', 'js'],
@@ -17,34 +19,34 @@ class File {
 	const SHARED = './shared/';
 
 	/**
-	 * @var string $name
+	 * @var string|int $name
 	 */
-	private string $name;
+	private string|int $name;
 
 	/**
-	 * @var string $full_path
+	 * @var string|int $full_path
 	 */
-	private string $full_path;
+	private string|int $full_path;
 
 	/**
-	 * @var string $type
+	 * @var string|int $type
 	 */
-	private string $type;
+	private string|int $type;
 
 	/**
-	 * @var string $tmp_name
+	 * @var string|int $tmp_name
 	 */
-	private string $tmp_name;
+	private string|int $tmp_name;
 
 	/**
-	 * @var int $error
+	 * @var string|int $error
 	 */
-	private int $error;
+	private string|int $error;
 
 	/**
-	 * @var int $size
+	 * @var string|int $size
 	 */
-	private int $size;
+	private string|int $size;
 
 	/**
 	 * @var ?string $category
@@ -52,18 +54,18 @@ class File {
 	private ?string $category = null;
 
 	/**
-	 * @param mixed $file
+	 * @param array<string,string|int> $file
 	 */
-	public function __construct(mixed $file)
+	public function __construct(array $file)
 	{
 		$this->setProperties($file);
 	}
 
 	/**
-	 * @param mixed $file
+	 * @param array<string,string|int> $file
 	 * @return void
 	 */
-	private function setProperties($file): void 
+	private function setProperties(array $file): void 
 	{
 		$this->name = $file['name'];
 		$this->full_path = $file['tmp_name'];
@@ -82,11 +84,15 @@ class File {
 		while (file_exists(self::SHARED . $this->category . '/' . $this->name)) {
 			$this->name = uniqid() . $this->name;
 		}
-		return move_uploaded_file($this->tmp_name, self::SHARED . $this->category . '/' . $this->name);
+		/**
+		 * @var string $tmp
+		 */
+		$tmp = (string) $this->tmp_name;
+		return move_uploaded_file($tmp, self::SHARED . $this->category . '/' . $this->name);
 	}
 
 	/**
-	 * @return void
+	 * @return bool
 	 */
 	private function validateExtension(): bool
 	{
@@ -108,61 +114,61 @@ class File {
 	 */
 	private function getExtension(): string
 	{
-		return pathinfo($this->name, PATHINFO_EXTENSION);
+		return pathinfo((string) $this->name, PATHINFO_EXTENSION);
 	}
 
 	/**
-	 * @return string
+	 * @return string|int
 	 */
-	public function getName(): string
+	public function getName(): string|int
 	{
 		return $this->name;
 	}
 	
 	/**
-	 * @return string
+	 * @return string|int
 	 */
-	public function getFullPath(): string
+	public function getFullPath(): string|int
 	{
 		return $this->full_path;
 	}
 
 	/**
-	 * @return string
+	 * @return string|int
 	 */
-	public function getType(): string
+	public function getType(): string|int
 	{
 		return $this->type;
 	}
 
 	/**
-	 * @return string
+	 * @return string|int
 	 */
-	public function getTmpName(): string
+	public function getTmpName(): string|int
 	{
 		return $this->tmp_name;
 	}
 
 	/**
-	 * @return int
+	 * @return string|int
 	 */
-	public function getError(): int
+	public function getError(): string|int
 	{
 		return $this->error;
 	}
 
 	/**
-	 * @return int
+	 * @return string|int
 	 */
-	public function getSize(): int
+	public function getSize(): string|int
 	{
 		return $this->size;
 	}
 
 	/**
-	 * @return string
+	 * @return ?string
 	 */
-	public function getCategory(): string
+	public function getCategory(): ?string
 	{
 		return $this->category;
 	}

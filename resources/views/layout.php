@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 		<meta name="description" content="" />
 		<meta name="author" content="" />
-		<title><?= dashboard()->title ?></title>
+		<title><?= Dashboard::settings()->getTitle() ?></title>
 		<link rel="icon" type="image/x-icon" href="https://cdn.alexishenry.eu/shared/images/logo.png" />
 		<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
@@ -17,7 +17,7 @@
 	<body>
 		<nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="nav">
 			<div class="container">
-				<a class="navbar-brand" href="/"><?= dashboard()->description ?></a>
+				<a class="navbar-brand" href="/"><?= Dashboard::settings()->getDescription() ?></a>
 				<button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 					Menu
 					<i class="fas fa-bars"></i>
@@ -64,7 +64,7 @@
 		</section>
 		<?php } Route::view(); ?>
 		<div class="copyright py-4 text-center text-white">
-			<div class="container"><small>&copy; <?= date('Y') . " " . dashboard()->title ?></small></div>
+			<div class="container"><small>&copy; <?= date('Y') . " " . Dashboard::settings()->getTitle() ?></small></div>
 		</div>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 		<script src="./build/js/scripts.js"></script>

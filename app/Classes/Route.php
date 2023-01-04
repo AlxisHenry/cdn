@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 class Route {
 
 	/**
-	 * @var array $routes
+	 * @var array<int,string> $routes
 	 */
 	private static array $routes = [
 		0 => '',
@@ -12,9 +14,9 @@ class Route {
 	];
 	
 	/**
-	 * @var string $route
+	 * @var string|false $route
 	 */
-	private static string $route;
+	private static string|false $route;
 
 	/**
 	 * @param string $route
@@ -31,7 +33,7 @@ class Route {
 	public static function make(): void
 	{
 		$route = array_search(explode('/', $_SERVER['REQUEST_URI'])[1], self::$routes);
-		self::$route = (array_key_exists($route, self::$routes) ?? false) ? self::$routes[$route] : false;
+		self::$route = array_key_exists((int) $route, self::$routes) ? self::$routes[$route] : false;
 	}
 
 	/**

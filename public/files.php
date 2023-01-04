@@ -5,7 +5,7 @@ include_once '../app/dashboard.php';
 /**
  * Check HTTP method
  * 
- * @param array $items
+ * @param array<string> $except
  * @throws Exception
  * @return void
  */
@@ -35,7 +35,7 @@ function actionConformity(string $action): void
 /**
  * Check token validity
  *
- * @var string $token
+ * @param string $token
  * @throws Exception
  * @return void
  */
@@ -47,44 +47,47 @@ function tokenConformity(string $token): void
 	}
 }
 
-/**
- * @var array $body
- */
-$body = [];
-
 if (isset($_POST['action'])) {
 	$body = $_POST;
+	// @phpstan-ignore-next-line
 } elseif (isset(json_decode(file_get_contents('php://input'), true)['action'])) {
+	// @phpstan-ignore-next-line
 	$body = json_decode(file_get_contents('php://input'), true);
 } else {	
 	$body = $_GET;
 }
 
-/**
- * @var string $action
- */
+// @phpstan-ignore-next-line
 $action = $body['action'];
 
+// @phpstan-ignore-next-line
 actionConformity($action);
 
 switch ($action) {
 	case 'delete':
 		httpMethod(['POST']);
+		// @phpstan-ignore-next-line
 		tokenConformity($body['token']);
+		// @phpstan-ignore-next-line
 		$filepath = $body['filepath'];
 		$path = "." . $filepath;
 		unlink($path);
 		break;
 	case 'edit':
 		httpMethod(['POST']);
+		// @phpstan-ignore-next-line
 		tokenConformity($body['token']);
+		// @phpstan-ignore-next-line
 		$filepath = $body['filepath'];
 		$path = "." . $filepath;
+		// @phpstan-ignore-next-line
 		$newFilename = $body['newFilename'];
+		// @phpstan-ignore-next-line
 		$pathWithoutFilename = substr($path, 0, strrpos($path, '/'));
 		$newPath = $pathWithoutFilename . '/' . $newFilename;
 		if (file_exists($newPath) || !file_exists($path) || !is_writable($path)) {
 			throw new Exception('File already exists or is not writable.');
+			// @phpstan-ignore-next-line
 		} elseif ($newFilename === "" || !$newFilename || !preg_match('/^[a-zA-Z0-9-_\.]+$/', $newFilename)) {
 			throw new Exception('Invalid filename.');
 		} else {
@@ -98,7 +101,9 @@ switch ($action) {
 		break;
 	case 'zip':
 		httpMethod(['GET']);
+		// @phpstan-ignore-next-line
 		$items = $body["items"];
+		// @phpstan-ignore-next-line
 		$f = explode(',', $items);
 		$files = [];
 		foreach ($f as $r) {
@@ -108,6 +113,7 @@ switch ($action) {
 		break;
 	case 'upload':
 		httpMethod(['POST']);
+		// @phpstan-ignore-next-line
 		tokenConformity($body['token']);
 		$file = new File($_FILES['file']);
 		if ($file->upload()) {

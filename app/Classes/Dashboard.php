@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
+use Symfony\Component\Yaml\Yaml;
+
 class Dashboard {
 
 	/**
-	 * @var array
+	 * @var array<string, string>
 	 */
 	private array $settings;
 
@@ -17,10 +21,26 @@ class Dashboard {
 	 */
 	public readonly string $description;
 
+	/**
+	 * @param array<string, string> $settings
+	 */
 	public function __construct(array $settings)
 	{
 		$this->settings = $settings;
-		$this->setAttributes();
+		$this->requirements();
+		$this->title = $this->settings['title'];
+		$this->description = $this->settings['description'];
+	}
+	/**
+	 * @return Dashboard
+	 */
+	public static function settings(): Dashboard
+	{
+		/**
+		 * @var array<array<string,string>> $settings
+		 */
+		$settings = Yaml::parseFile(__DIR__ . '/../../settings.yml');
+		return new Dashboard($settings['dashboard']);
 	}
 
 	/**
@@ -33,14 +53,19 @@ class Dashboard {
 	}
 
 	/**
-	 * @param array $credentials
-	 * @return void
+	 * @return string
 	 */
-	private function setAttributes(): void
+	public function getTitle(): string
 	{
-		$this->requirements();
-		$this->title = $this->settings['title'];
-		$this->description = $this->settings['description'];
+		return $this->title;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDescription(): string
+	{
+		return $this->description;
 	}
 
 }

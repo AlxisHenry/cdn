@@ -49,28 +49,21 @@ function tokenConformity(string $token): void
 
 /**
  * @var array $body
- * @var bool $post
- * @var bool $get
- * @var bool $php_input
  */
 $body = [];
-$post = false;
-$get = false;
-$php_input = false;
 
 if (isset($_POST['action'])) {
-	$post = true;
-	$action = $_POST['action'];
 	$body = $_POST;
 } elseif (isset(json_decode(file_get_contents('php://input'), true)['action'])) {
-	$php_input = true;
-	$action = json_decode(file_get_contents('php://input'), true)['action'];
 	$body = json_decode(file_get_contents('php://input'), true);
 } else {	
-	$get = true;
-	$action = $_GET['action'];
 	$body = $_GET;
 }
+
+/**
+ * @var string $action
+ */
+$action = $body['action'];
 
 actionConformity($action);
 

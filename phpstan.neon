@@ -1,0 +1,7 @@
+parameters:
+	paths:
+		- app/
+		- resources/
+		- public/
+	bootstrapFiles:
+		- app/dashboard.php

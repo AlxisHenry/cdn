@@ -1,0 +1,22 @@
+{
+  "name": "cdn",
+  "version": "0.3.0",
+  "description": "https://github.com/AlxisHenry/cdn.alexishenry.eu",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "phpstan": "vendor/bin/phpstan analyse --level=9 -c phpstan.neon --xdebug",
+    "tests": "./vendor/bin/phpunit --testdox tests/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlxisHenry/cdn.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlxisHenry/cdn/issues"
+  },
+  "homepage": "https://github.com/AlxisHenry/cdn#readme"
+}

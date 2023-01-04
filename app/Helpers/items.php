@@ -1,15 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 use Carbon\Carbon;
 
 /**
  * Get all items uploaded
+ * 
+ * @return array<int, array<string,int|string|false>>
  */
 function getItems(): array
 {
-	/**
-	 * @var array $items
-	 */
 	$items = [];
 	foreach (getCategories() as $category) {
 		foreach (getCategoryItems($category) as $item) {
@@ -22,27 +23,20 @@ function getItems(): array
 /**
  * Generate items for the given array of items
  * 
- * @param array $items
+ * @param array<int, array<string,int|string|false>> $items
  * @param bool $html
  * @return string
  */
 function generateItems(array $items, bool $html =  false): string
 {
-	/**
-	 * @var string $list
-	 * @var string $domain
-	 */
 	$list = "";
 	$domain = (($_SERVER['HTTPS'] ?? false) ? "https://" : "http://") . $_SERVER['HTTP_HOST'];
 	if (empty($items)) return htmlFormat("<li class='list-group-item'>No items found</li>");
 	foreach ($items as $item) {
 		$category = $item['category'];
 		$filename = $item['filename'];
+		/** @phpstan-ignore-next-line */
 		$updated_at = Carbon::createFromTimestamp($item['updated_at'])->diffForHumans();
-		/**
-		 * @var string $url
-		 * @var string $downloadUrl
-		 */
 		$url = $domain . "/shared/$category/$filename";
 		$downloadUrl = $domain . "/shared/$category/?file=$filename";
 		$list .= "<li class='list-group-item item-container d-flex flex-column gap-2'
@@ -54,7 +48,7 @@ function generateItems(array $items, bool $html =  false): string
 							<a class='item' target='_blank' href='/shared/$category/$filename'>$filename</a>
 							<span>uploaded $updated_at</span>
 						</div>";
-		if ($_SESSION['connected'] ?? false) {
+		if (Auth::check()) {
 			$list .= "
 			<div class='d-flex gap-3' data-token=".$_SESSION['token'].">
 				<div class='edit-item' data-action='edit'><i class='fa-solid fa-pen ml-2' style='cursor: pointer;'></i></div>
@@ -75,13 +69,10 @@ function generateItems(array $items, bool $html =  false): string
  * Return an array of files matching with the research
  * 
  * @param string $search
- * @return array
+ * @return array<int, array<string,int|string|false>>
  */
 function getItemsCorrespondingToSearch(string $search): array
 {
-	/**
-	 * @var array $items
-	 */
 	$items = [];
 	/**
 	 * Make an array containing all the items corresponding to the search input in the shared folder
@@ -94,6 +85,7 @@ function getItemsCorrespondingToSearch(string $search): array
 	 */
 	foreach (getCategories() as $category) {
 		foreach (getCategoryItems($category) as $item) {
+			/** @phpstan-ignore-next-line */
 			if (strpos(strtolower($item['filename']), strtolower($search)) !== false) {
 				$items[] = $item;
 			}
@@ -104,13 +96,10 @@ function getItemsCorrespondingToSearch(string $search): array
 
 /**
  * @param int $limit
- * @return array
+ * @return array<int, array<string, int|string|false>>
  */
 function getLatestItems(int $limit): array
 {
-	/**
-	 * @var array $items
-	 */
 	$items = getItems();
 	usort($items, function ($a, $b) {
 		return $b['updated_at'] <=> $a['updated_at'];
@@ -123,14 +112,12 @@ function getLatestItems(int $limit): array
  * Generate list of items that match the search
  * 
  * @param string $search
- * @return bool|string
+ * @return string
  */
-function generateSearchContentList(string $search): bool|string
+function generateSearchContentList(string $search): string
 {	
-	/**
-	 * @var array $correspondingItems
-	 */
 	$correspondingItems = getItemsCorrespondingToSearch($search);
+	/** @phpstan-ignore-next-line */
 	if (count($correspondingItems) <= 0 || !$correspondingItems) return false;
 	return generateItems($correspondingItems);
 }
@@ -155,10 +142,6 @@ function latestUploads(int $limit = 6): string
  */
 function searchResults(): string
 {
-	/**
-	 * @var string $search
-	 * @var string $results
-	 */
 	$search = $_GET['search'] ?? null;
 	if (!isset($search) || $search === "") {
 		$results = "<li class='list-group-item'>No search term provided</li>";

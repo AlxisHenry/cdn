@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Symfony\Component\Yaml\Yaml;
+
 class Auth {
     
     /**
@@ -16,8 +18,17 @@ class Auth {
 
     public function __construct()
     {
-        $this->username = user()->username;
-        $this->password = user()->password;
+        $this->username = self::user()->getUsername();
+        $this->password = self::user()->getPassword();
+    }
+
+    public static function user(): User
+    {
+        /**
+         * @var array<array<string,string>> $settings
+         */
+        $settings = Yaml::parseFile(__DIR__ . '/../../settings.yml');
+        return new User($settings['user']);
     }
 
     /**
@@ -46,15 +57,10 @@ class Auth {
      */
     private function login(): void
     {
-        /**
-         * @var string $username
-         * @var string $password
-         */
         $username = $_POST['username'] ?? null;
-        $password = $_POST['password'] ?? null;
-        
+        $password = $_POST['password'] ?? null;   
         if ($this->username === $username && password_verify($password, $this->password)) {
-            $_SESSION['user'] = user();
+            $_SESSION['user'] = Auth::user();
             $_SESSION['connected'] = true;
             $_SESSION['token'] = bin2hex(random_bytes(32));
             setcookie('swal', 'connected', time() + 1, '/');

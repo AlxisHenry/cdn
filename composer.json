@@ -2,5 +2,9 @@
     "require": {
         "symfony/yaml": "^6.2",
         "nesbot/carbon": "^2.64"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.9",
+        "phpunit/phpunit": "^9"
     }
 }

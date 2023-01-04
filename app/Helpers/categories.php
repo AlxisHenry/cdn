@@ -1,19 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Return an array with the differents categories
  * 
- * @return array
+ * @return array<string>
  */
-function getCategories(): array 
+function getCategories(): array
 {
-	/**
-	 * @var array $categories
-	 * @var array $directories
-	 * @var array $exclude
-	 */
 	$categories = [];
-	$directories = scandir('./shared');
+	$directories = scandir('./shared') ?: [];
 	$exclude = ['.', '..', 'build', 'index.php'];
 	foreach ($directories as $directory) {
 		if (!in_array($directory, $exclude)) $categories[] = $directory;
@@ -25,17 +22,12 @@ function getCategories(): array
  * Return an array with the items of a category passed in parameter
  * 
  * @param string $category
- * @return array
+ * @return array<int, array<string,int|string|false>>
  */
 function getCategoryItems(string $category): array 
 {
-	/**
-	 * @var array $files
-	 * @var array $categoryItems
-	 * @var array $exclude
-	 */
 	$files = [];
-	$categoryItems = scandir("./shared/$category/");
+	$categoryItems = scandir("./shared/$category/") ?: [];
 	$exclude = ['.', '..', '.gitignore', 'index.php'];
 	foreach ($categoryItems as $item) {
 		if (!in_array($item, $exclude)) {
@@ -53,17 +45,12 @@ function getCategoryItems(string $category): array
  * Generate list of items of a given category
  * 
  * @param string $category
- * @param string $domain
  * @return string
  */
 function generateCategoryItemsList(string $category): string
 {
-	/**
-	 * @var array $items
-	 * @var string $list
-	 */
 	$items = getCategoryItems($category);
-	$list = generateItems($items, $category);
+	$list = generateItems($items, html: true);
 	return $list;
 }
 
@@ -76,11 +63,6 @@ function generateCategoryItemsList(string $category): string
  */
 function generateCategorySection(string $category, bool $background): string
 {	
-	/**
-	 * @var string $sectionClass
-	 * @var string $titleClass
-	 * @var string $dividerClass
-	 */
 	$sectionClass = $background ? "bg-primary-light text-white mb-0" : "";
 	$titleClass = $background ? "text-white" : "";
 	$dividerClass = $background ? "divider-light" : "";

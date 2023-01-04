@@ -78,15 +78,13 @@ class File {
 	 */
 	public function upload(): bool
 	{
-		if (!$this->validateExtension()) {
-			return false;
-		} elseif (file_exists(self::SHARED . $this->category . '/' . $this->name)) {
-			$this->name = uniqid() . '-' . $this->name;
+		if (!$this->validateExtension()) return false;
+		while (file_exists(self::SHARED . $this->category . '/' . $this->name)) {
+			$this->name = uniqid() . $this->name;
 		}
 		return move_uploaded_file($this->tmp_name, self::SHARED . $this->category . '/' . $this->name);
 	}
 
-	
 	/**
 	 * @return void
 	 */
@@ -163,30 +161,6 @@ class File {
 	public function getCategory(): string
 	{
 		return $this->category;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function isImage(): bool
-	{
-		return in_array($this->type, ['image/jpeg', 'image/png', 'image/gif']);
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function isVideo(): bool
-	{
-		return in_array($this->type, ['video/mp4', 'video/webm', 'video/ogg']);
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function isAudio(): bool
-	{
-		return in_array($this->type, ['audio/mp3', 'audio/mpeg', 'audio/ogg', 'audio/wav']);
 	}
 
 }

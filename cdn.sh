@@ -52,7 +52,7 @@ source  $(dirname "$0")/utils/args.sh;
 # - Video: mp4 webm
 # You can add or remove extensions in the variables below.
 
-file_allowed_extensions="pdf md txt yml json yaml css js"
+file_allowed_extensions="pdf md txt yml json yaml css js zip"
 image_allowed_extensions="jpg jpeg png gif svg"
 video_allowed_extensions="mp4 webm"
 

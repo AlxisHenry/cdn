@@ -1,13 +1,13 @@
 {
   "name": "cdn",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "https://github.com/AlxisHenry/cdn.alexishenry.eu",
   "directories": {
     "test": "tests"
   },
   "scripts": {
     "phpstan": "vendor/bin/phpstan analyse --level=9 -c phpstan.neon --xdebug",
-    "tests": "./vendor/bin/phpunit --testdox tests/"
+    "tests": "./vendor/bin/phpunit --colors --testdox tests/"
   },
   "repository": {
     "type": "git",

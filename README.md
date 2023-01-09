@@ -24,11 +24,13 @@
 
 # :notebook_with_decorative_cover: Summary
 
-- [About the project](#star2-about-the-project)
-  * [Techs](#space_invader-techs)
-- [Getting Started](#toolbox-getting-started)
-  * [Installation](#gear-setup)
-- [Authors](#wave-authors)
+- [:notebook\_with\_decorative\_cover: About the project](#star2-about-the-project)
+  * [:space\_invader: Techs](#space_invader-techs)
+- [:toolbox: Getting Started](#toolbox-getting-started)
+  * [:gear: Setup](#gear-setup)
+  * [:gear: Configuration](#gear-config)
+  * [:test\_tube: Tests]($t)
+- [:wave: Authors](#wave-authors)
 
 ## :star2: About the project
 
@@ -46,15 +48,49 @@ This project is built with PHP. It's a simple cdn to store my images and files.
 **Clone the repository**
 
 ```
-  git clone https://github.com/AlxisHenry/cdn.git
+git clone https://github.com/AlxisHenry/cdn.git
 ```
 
-**Deployement**
-
-*Don't forgot to configure your enviroments variables and place the files you want to deploy in the `uploads` folder.*
+**Launch the setup script, it will do most of the work for you.**
 
 ```
-bash cdn.sh
+bash setup.sh
+```
+
+### :gear: Configuration
+
+The first step is to configure dashboard settings. You can do it by editing the `settings.yml` file situated in the root of the project.
+
+```yml
+dashboard:
+  title: "CDN - IT'S ME"
+  description: "COOL CDN FOR COOL PEOPLE"
+```
+
+The second step is to configure the `config.php` file. You can do it by editing the `config.php` file situated in the root of the project.
+
+**In this file you can configure some settings like the environment, the maximum file size, etc...**
+
+```php
+return [
+	/**
+	 * Environment settings
+	 */
+	'APP_ENV' => 'development',
+
+	/**
+	 * Files settings
+	 */
+	'MAX_FILE_SIZE' => 50000000, // value in bytes (default: 50MB)
+];
+```
+
+### :test_tube: Tests
+
+**Run the tests using the following command**
+
+```
+npm run tests
 ```
 
 ## :wave: Authors

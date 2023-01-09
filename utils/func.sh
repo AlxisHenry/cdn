@@ -1,3 +1,5 @@
+#!/bin/bash
+
 function crendentialsCheck() {
 	ssh -q -o BatchMode=yes -o ConnectTimeout=2 ${SSH_USER}@${SSH_ADDR} -p ${SSH_PORT} exit
 	if [ $? -ne 0 ]; then

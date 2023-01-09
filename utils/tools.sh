@@ -1,3 +1,5 @@
+#!/bin/bash
+
 function wait() {
   for i in {1..3}; do
     sleep 0.3;

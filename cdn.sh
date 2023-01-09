@@ -41,6 +41,8 @@ source $(dirname "$0")/utils/func.sh;
 # Options (you can add or remove options in the file "utils/args.sh"):
 # -h, --help: Display the help.
 # -u, --update: Check for updates.
+# -t, --tests: Run the tests.
+# -c, --config: Setup configuration.
 # -d, --debug: Display the debug messages.
 # -f, --force: Force the upload of the files (skip some checks).
 

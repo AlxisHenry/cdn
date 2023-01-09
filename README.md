@@ -6,17 +6,17 @@
   <h1>cdn.alexishenry.eu</h1>
   
   <p>
-    My cdn made with :heart:
+    My cdn deployer made with :heart:
   </p>
 
 <a href="https://alxishenry.github.io/docs"><strong>Documentation »</strong></a>
 
 <h4>
-    <a href="https://alexishenry.eu">Go to the site</a>
+    <a href="https://cdn.alexishenry.eu">Go to the site</a>
   <span> · </span>
-    <a href="https://github.com/AlxisHenry/cdn/issues">Report a bug</a>
+    <a href="https://github.com/AlxisHenry/cdn.alexishenry.eu/issues">Report a bug</a>
   <span> · </span>
-    <a href="https://github.com/AlxisHenry/cdn/issues">I have an idea</a>
+    <a href="https://github.com/AlxisHenry/cdn.alexishenry.eu/issues">I have an idea</a>
   </h4>
 </div>
 
@@ -32,11 +32,10 @@
 
 ## :star2: About the project
 
-This project is built with PHP. It's a simple cdn to store my images and files.
+This project is built with Bash and is used to upload files to my cdn.
 
 ### :space_invader: Techs
 
-[![Php](https://img.shields.io/badge/php%20-%23323330.svg?&style=for-the-badge&logo=php&logoColor=8b9ed6&color=gray)]()
 [![Shell](https://img.shields.io/badge/bash%20-hotpink.svg?&style=for-the-badge&logo=gnu-bash&logoColor=4EAA25&color=gray)]()
 
 ## :toolbox: Getting Started
@@ -45,17 +44,32 @@ This project is built with PHP. It's a simple cdn to store my images and files.
 
 **Clone the repository**
 
-```
-  git clone -b sync https://github.com/AlxisHenry/cdn.git
+```bash
+git clone -b sync https://github.com/AlxisHenry/cdn.git
 ```
 
 **Deployement**
 
 *Don't forgot to configure your enviroments variables and place the files you want to deploy in the `uploads` folder.*
 
-```
+```bash
 bash cdn.sh
 ```
+
+Following options are available:
+
+- `-h`, or `--help` : Display the help.
+- `-u`, or `--update` : Check for updates.
+- `-t`, or `--tests` : Run the tests.
+- `-c`, or `--config` : Setup configuration.
+- `-d`, or `--debug` : Display the debug messages.
+- `-f`, or `--force` : Force the upload of the files (skip some checks).
+
+```bash
+Usage: cdn.sh [options]
+```
+
+*For more information, please refer to the [Documentation](https://alxishenry.github.io/docs).*
 
 ## :wave: Authors
 

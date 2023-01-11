@@ -45,7 +45,7 @@ return [
 	/**
 	 * Files settings
 	 */
-	'MAX_FILE_SIZE' => 50000000, // value in bytes (default: 50MB)
+	'MAX_FILE_SIZE' => "50000000", // value in bytes (default: 50MB)
 ];
 EOF
 	success "Configuration file created successfully" true;

@@ -148,3 +148,32 @@ function formatFilesize(string $size, bool $round = true): string
 	/** @phpstan-ignore-next-line */
 	return round($size, 2) . ' ' . $units[$i];
 }
+
+/**
+ * @param string $type
+ * @param string $content
+ */
+function generateAssetHtmlTag(string $filename): string
+{
+	$domain = (($_SERVER['HTTPS'] ?? false) ? "https://" : "http://") . $_SERVER['HTTP_HOST'];
+	if (pathinfo("$domain/$filename", PATHINFO_EXTENSION) === "js") return "<script src='$domain/$filename' async></script>";
+	return "<link href='$domain/$filename' rel='stylesheet'/>";
+}
+
+
+/**
+ * @param string|array $f
+ * @return string
+ */
+function asset(string|array $f): string
+{
+	$html = "";
+	if (is_array($f)) {
+		foreach ($f as $file) {
+			$html .= generateAssetHtmlTag(filename: $file);
+		}
+	} else {	
+		$html .= generateAssetHtmlTag(filename: $f);
+	}
+	return $html;
+}

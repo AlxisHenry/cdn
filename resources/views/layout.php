@@ -3,14 +3,14 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-		<meta name="description" content="" />
+		<meta name="description" content="<?= Dashboard::settings() ?>"/>
 		<meta name="author" content="" />
 		<title><?= Dashboard::settings()->getTitle() ?></title>
 		<link rel="icon" type="image/x-icon" href="https://cdn.alexishenry.eu/shared/images/logo.png" />
 		<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
 		<link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
-		<link href="./build/css/main.css" rel="stylesheet" />
+		<?= @asset("build/css/main.css"); ?>
 		<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 	</head>
@@ -28,12 +28,7 @@
 					<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/#latest">Latest uploads</a></li>
 					<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/archive">Archive</a></li>
 					<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/upload">Upload</a></li>
-					<?php
-					if ($_SESSION['connected'] ?? false) { ?>
-						<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="?logout">Logout</a></li>
-					<?php } else { ?>
-						<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#login">Login</a></li>
-					<?php } ?>
+					<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href=<?= Auth::check() ? '"?logout">Logout' : '"#login">Login' ?></a></li>
 					</ul>
 				</div>
 			</div>
@@ -67,8 +62,7 @@
 			<div class="container"><small>&copy; <?= date('Y') . " " . Dashboard::settings()->getTitle() ?></small></div>
 		</div>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-		<script src="./build/js/scripts.js"></script>
-		<script src="./build/js/main.js"></script>
+		<?= @asset(["build/js/scripts.js", "build/js/main.js"]); ?>
 		<?= swal(); ?>
 	</body>
 </html>

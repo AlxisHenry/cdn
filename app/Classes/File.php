@@ -9,7 +9,7 @@ class File {
 	 */
 	const ALLOWED_EXTENSIONS = [
 		'files' => ['pdf', 'md', 'txt', 'yml', 'json', 'yaml', 'css', 'js'],
-		'images' => ['jpg', 'jpeg', 'png', 'gif', 'svg'],
+		'images' => ['jpg', 'jpeg', 'png', 'gif', 'svg', 'jfif', 'webp', 'jif'],
 		'videos' => ['mp4', 'webm']
 	];
 

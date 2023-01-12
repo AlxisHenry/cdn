@@ -9,8 +9,11 @@ class DashboardController {
 	 */
 	public function index(): void
 	{
-		$test = "abc1234567";
-		View::show("pages.dashboard");
+		View::show("pages.dashboard", [
+			"searchResults" => searchResults(),
+			"latestUploads" => latestUploads(),
+			"categories" => getCategories()
+		]);
 	}
 
 	/**
@@ -18,7 +21,9 @@ class DashboardController {
 	 */
 	public function upload(): void 
 	{
-		View::show("pages.upload");
+		View::show("pages.upload", [
+			"latestUploads" => latestUploads()
+		]);
 	}
 
 	/**
@@ -26,7 +31,9 @@ class DashboardController {
 	 */
 	public function archive(): void 
 	{
-		View::show("pages.zip");
+		View::show("pages.zip", [
+			"items" => generateItems(getItems(), html: true)
+		]);
 	}
 
 }

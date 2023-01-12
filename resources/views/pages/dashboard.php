@@ -12,7 +12,7 @@
 				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 			</form>
 		</div>
-		<?= searchResults() ?>
+		<?= $searchResults ?>
 	</div>
 </section>
 <section class='page-section bg-primary-light text-white mb-0' id="latest">
@@ -23,12 +23,12 @@
 			<div class='divider-custom-icon'><i class='fas fa-star'></i></div>
 			<div class='divider-custom-line'></div>
 		</div>
-		<?= latestUploads() ?>
+		<?= $latestUploads ?>
 	</div>
 </section>
 <?php
     $background = false;
-    foreach (getCategories() as $category) {
+    foreach ($categories as $category) {
         echo generateCategorySection($category, $background);
         $background = !$background;
     }

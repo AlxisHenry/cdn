@@ -2,59 +2,134 @@
 
 declare(strict_types=1);
 
-class Route {
+class Route extends RouteManager {
 
 	/**
-	 * @var array<int,string> $routes
+	 * @var string $method
 	 */
-	private static array $routes = [
-		0 => '',
-		1 => 'archive',
-		2 => 'upload',
-	];
-	
-	/**
-	 * @var string|false $route
-	 */
-	private static string|false $route;
+	private string $method;
 
 	/**
-	 * @param string $route
-	 * @return bool
+	 * @var ?string $name
 	 */
-	public static function check(string $route): bool
+	private ?string $name;
+
+	/**
+	 * @var string $callback
+	 */
+	private string $callback;
+		
+	/**
+	 * @var string $uri
+	 */
+	private string $uri;
+
+	/**
+	 * @param string $uri
+	 * @param string $callback
+	 * 
+	 * @return Route
+	 */
+	public static function get(string $uri, string $callback): Route 
 	{
-		return in_array($route, self::$routes);
+		return new Route(method: "GET", uri: $uri, callback: $callback);
 	}
 
 	/**
-	 * @return void
+	 * @param string $uri
+	 * @param string $callback
+	 * 
+	 * @return Route
 	 */
-	public static function make(): void
+	public static function post(string $uri, string $callback): Route 
 	{
-		$route = array_search(explode('/', $_SERVER['REQUEST_URI'])[1], self::$routes);
-		self::$route = array_key_exists((int) $route, self::$routes) ? self::$routes[$route] : false;
+		return new Route(method: "POST", uri: $uri, callback: $callback);
 	}
 
 	/**
+	 * @param array<string,string> $properties
+	 */
+	public function __construct(string ...$properties) /** @phpstan-ignore-line */
+	{
+		$this->setProperties($properties);
+	}
+
+	/**
+	 * @param array<string, string>
 	 * @return void
 	 */
-	public static function view(): void
+	private function setProperties(array $properties): void /** @phpstan-ignore-line */
 	{
-		$viewPath = __DIR__ . '/../../resources/views/pages';
-		switch (self::$route) {
-			case '':
-				include_once "$viewPath/dashboard.php";
-				break;
-			case 'archive':
-				include_once "$viewPath/zip.php";
-				break;
-			case 'upload':
-				include_once "$viewPath/upload.php";
-				break;
-			default:
-				break;
+		$this->setMethod(method: $properties["method"]);
+		$this->uri = $properties["uri"];
+		$this->callback = $properties["callback"];
+	}
+
+	/**
+	 * @param string $method
+	 * @return void
+	 */
+	private function setMethod(string $method): void 
+	{
+		$this->method = $this->availableMethod($method) ? $method : "GET";
+	}
+
+	/**
+	 * @throws Exception
+	 * @return void
+	 */
+	public function call(): void
+	{
+		$method = $_SERVER["REQUEST_METHOD"];
+
+		if ($method !== $this->getMethod()) {
+			View::abort("405", header: true);
+			return;		
 		}
+
+		try {
+			$callback = explode('@', $this->callback);
+			$controller = $callback[0];
+			$method = $callback[1];
+			$closure = new $controller();
+			$closure->$method();
+		} catch (\Throwable $th) {
+			throw new Exception("Invalid controller name in route call method $th");
+		}
+	}
+
+	/**
+	 * @param string $name
+	 * @return Route
+	 */
+	public function name(string $name): Route
+	{
+		$this->name = $name;
+		return $this;
+	}
+
+	/**
+	 * @return ?string
+	 */
+	public function getName(): ?string
+	{
+		return $this->name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getUri(): string
+	{
+		return $this->uri;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getMethod(): string
+	{
+		return $this->method;
 	}
 
 }

@@ -112,13 +112,13 @@ function getLatestItems(int $limit): array
  * Generate list of items that match the search
  * 
  * @param string $search
- * @return string
+ * @return ?string
  */
-function generateSearchContentList(string $search): string
+function generateSearchContentList(string $search): ?string
 {	
 	$correspondingItems = getItemsCorrespondingToSearch($search);
 	/** @phpstan-ignore-next-line */
-	if (count($correspondingItems) <= 0 || !$correspondingItems) return false;
+	if (count($correspondingItems) <= 0 || !$correspondingItems) return null;
 	return generateItems($correspondingItems);
 }
 
@@ -146,7 +146,7 @@ function searchResults(): string
 	if (!isset($search) || $search === "") {
 		$results = "<li class='list-group-item'>No search term provided</li>";
 	} else {
-		$results = generateSearchContentList($search);
+		$results = generateSearchContentList($search) ?? null;
 		if (!$results) $results = "<li class='list-group-item'>No result found</li>";
 	}
 	return htmlFormat($results);

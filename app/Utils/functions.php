@@ -150,19 +150,19 @@ function formatFilesize(string $size, bool $round = true): string
 }
 
 /**
- * @param string $type
- * @param string $content
+ * @param string $filename
+ * @return string
  */
 function generateAssetHtmlTag(string $filename): string
 {
-	$domain = (($_SERVER['HTTPS'] ?? false) ? "https://" : "http://") . $_SERVER['HTTP_HOST'];
-	if (pathinfo("$domain/$filename", PATHINFO_EXTENSION) === "js") return "<script src='$domain/$filename' async></script>";
-	return "<link href='$domain/$filename' rel='stylesheet'/>";
+	$file = (($_SERVER['HTTPS'] ?? false) ? "https://" : "http://") . $_SERVER['HTTP_HOST'] . "/$filename";
+	if (pathinfo($file, PATHINFO_EXTENSION) === "js") return "<script src='$file' async></script>";
+	return "<link href='$file' rel='stylesheet'/>";
 }
 
 
 /**
- * @param string|array $f
+ * @param string|array<string> $f
  * @return string
  */
 function asset(string|array $f): string

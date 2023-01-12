@@ -81,16 +81,22 @@ return [
 	/**
 	 * Files settings
 	 */
-	'MAX_FILE_SIZE' => 50000000, // value in bytes (default: 50MB)
+	'MAX_FILE_SIZE' => "50000000", // value in bytes (default: 50MB)
 ];
 ```
 
 ### :test_tube: Tests
 
+**Run linters**
+
+```
+make lint
+```
+
 **Run the tests using the following command**
 
 ```
-npm run tests
+make tests || npm run tests
 ```
 
 ## :wave: Authors

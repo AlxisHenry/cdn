@@ -25,20 +25,34 @@ class View {
 
 	/**
 	 * @param string $view
-	 * @param bool $error
+	 * @param array $data
 	 * @throws Exception
 	 * @return void
 	 */
-	public static function show(string $view, bool $error = false): void
+	public static function show(string $view, array $data = []): void
 	{
 		try {
-			if (!$error) {
-				include self::ROOT . "/layouts/head.php";
-				include self::find($view);
-				include self::ROOT . "/layouts/foot.php";
-			} else {
-				include self::find("errors.$view");
-			}
+			foreach ($data as $k => $v) { $$k = $v; }
+			include self::ROOT . "/layouts/head.php";
+			include self::find($view);
+			include self::ROOT . "/layouts/foot.php";
+		} catch (\Throwable $th) {
+			throw new Exception("Invalid path to view given to View::show() static function $th");
+		}
+	}
+
+	/**
+	 * @param string $view
+	 * @param bool $header
+	 * @param array $data
+	 * @return void
+	 */
+	public static function abort(string $view, bool $header = false, array $data = []): void
+	{
+		try {
+			if ($header) include self::ROOT . "/layouts/head.php";
+			include self::find("errors.$view");
+			if ($header) include self::ROOT . "/layouts/foot.php";
 		} catch (\Throwable $th) {
 			throw new Exception("Invalid path to view given to View::show() static function $th");
 		}

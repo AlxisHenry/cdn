@@ -42,7 +42,7 @@ class Router {
 				return;
 			}
 		}
-		View::show("404", error: true);
+		View::abort("404", header: true);
 	}
 
 }

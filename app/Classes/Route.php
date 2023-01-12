@@ -83,7 +83,7 @@ class Route extends RouteManager {
 		$method = $_SERVER["REQUEST_METHOD"];
 
 		if ($method !== $this->getMethod()) {
-			View::show("405", error: true);
+			View::abort("405", header: false);
 			return;		
 		}
 

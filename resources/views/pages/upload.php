@@ -13,7 +13,7 @@
 			<form class="form-inline my-2 my-lg-0 d-flex gap-1" style="width: 70%; <?= Auth::check() ?: "cursor: not-allowed;" ?>" <?= Auth::check() ? 'method="POST" action="/files.php" enctype="multipart/form-data"' : 'disabled' ?>>
 				<input type="hidden" id="action" name="action" value="upload">
 				<input type="hidden" id="token" name="token" value="<?= !Auth::check() ?: $_SESSION["token"] ?>">
-				<input class="form-control mr-sm-2" type="file" name="file" placeholder="Upload file" aria-label="Upload file" <?= Auth::check() ?: 'disabled' ?>>
+				<input class="form-control mr-sm-2" type="file" name="files[]" placeholder="Upload files" aria-label="Upload files" multiple <?= Auth::check() ?: 'disabled' ?>>
 				<button class="btn btn-outline-success my-2 my-sm-0" type="submit" <?= Auth::check() ?: 'disabled' ?> id="upload-button">Upload</button>
 			</form>
 		</div>
@@ -27,6 +27,6 @@
 			<div class='divider-custom-icon'><i class='fas fa-star'></i></div>
 			<div class='divider-custom-line'></div>
 		</div>
-		<?= $latestUploads ?>
+		<?= $latestUploads // @phpstan-ignore-line ?>
 	</div>
 </section>

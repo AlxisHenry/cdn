@@ -26,6 +26,7 @@ function swal(?string $type = null): string
         'connected' => "<script>
             Swal.fire({
                 icon: 'success',
+				iconColor: '#464aa6',
                 title: 'Connected',
                 text: 'You are now connected to the dashboard',
                 showConfirmButton: true,
@@ -36,6 +37,7 @@ function swal(?string $type = null): string
         'connection_failed' => "<script>
             Swal.fire({
                 icon: 'error',
+				iconColor: '#242b40',
                 title: 'Connection failed',
                 text: 'The username or password is incorrect',
                 showConfirmButton: true,
@@ -46,6 +48,7 @@ function swal(?string $type = null): string
         'logout' => "<script>
             Swal.fire({
                 icon: 'success',
+				iconColor: '#464aa6',
                 title: 'Logout',
                 text: 'You are now disconnected from the dashboard',
                 showConfirmButton: true,
@@ -56,6 +59,7 @@ function swal(?string $type = null): string
         'file_renamed' => "<script>
             Swal.fire({
                 icon: 'success',
+				iconColor: '#464aa6',
                 title: 'File renamed',
                 text: 'The file has been renamed',
                 showConfirmButton: true,
@@ -66,8 +70,9 @@ function swal(?string $type = null): string
 		'file_uploaded' => "<script>
 			Swal.fire({
 				icon: 'success',
-				title: 'File uploaded',
-				text: 'The file has been uploaded',
+				iconColor: '#464aa6',
+				title: 'File(s) uploaded',
+				text: 'File(s) have been uploaded',
 				showConfirmButton: true,
 				timerProgressBar: true,
 				timer: 3000
@@ -76,8 +81,20 @@ function swal(?string $type = null): string
 		'file_upload_failed' => "<script>
 			Swal.fire({
 				icon: 'error',
-				title: 'File upload failed',
-				text: 'The file has not been uploaded',
+				iconColor: '#242b40',
+				title: 'File(s) upload failed',
+				text: 'Files could not be uploaded',
+				showConfirmButton: true,
+				timerProgressBar: true,
+				timer: 3000
+			})
+		</script>",
+		'files_not_send' => "<script>
+			Swal.fire({
+				icon: 'error',
+				iconColor: '#242b40',
+				title: 'Upload failed',
+				text: 'Please select at least one file to upload',
 				showConfirmButton: true,
 				timerProgressBar: true,
 				timer: 3000

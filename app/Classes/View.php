@@ -25,7 +25,7 @@ class View {
 
 	/**
 	 * @param string $view
-	 * @param array $data
+	 * @param array<string,mixed> $data
 	 * @throws Exception
 	 * @return void
 	 */
@@ -44,7 +44,7 @@ class View {
 	/**
 	 * @param string $view
 	 * @param bool $header
-	 * @param array $data
+	 * @param array<string,mixed> $data
 	 * @return void
 	 */
 	public static function abort(string $view, bool $header = false, array $data = []): void

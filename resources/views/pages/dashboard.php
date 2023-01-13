@@ -23,12 +23,12 @@
 			<div class='divider-custom-icon'><i class='fas fa-star'></i></div>
 			<div class='divider-custom-line'></div>
 		</div>
-		<?= $latestUploads // @phpstan-ignore-line ?>
+    <?= $latestUploads // @phpstan-ignore-line ?>
 	</div>
 </section>
 <?php
     $background = false;
-	// @phpstan-ignore-next-line
+    // @phpstan-ignore-next-line
     foreach ($categories as $category) {
         echo generateCategorySection($category, $background);
         $background = !$background;

@@ -118,6 +118,8 @@ switch ($action) {
 		$uploadedFiles = $_FILES["files"];
 		if ($uploadedFiles["name"][0] === "") {
 			setcookie('swal', 'files_not_send', time() + 1, '/');
+			Redirect::back();
+			break;
 		}
 		$files = [];
 		foreach ($uploadedFiles as $v => $f) {

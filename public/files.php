@@ -115,12 +115,27 @@ switch ($action) {
 		httpMethod(['POST']);
 		// @phpstan-ignore-next-line
 		tokenConformity($body['token']);
-		$file = new File($_FILES['file']);
-		if ($file->upload()) {
-			setcookie('swal', 'file_uploaded', time() + 1, '/');
-		} else {
-			setcookie('swal', 'file_upload_failed', time() + 1, '/');
+		$uploadedFiles = $_FILES["files"];
+		if ($uploadedFiles["name"][0] === "") {
+			setcookie('swal', 'files_not_send', time() + 1, '/');
 		}
-		header('Location: ' . $_SERVER['HTTP_REFERER']);
+		$files = [];
+		foreach ($uploadedFiles as $v => $f) {
+			foreach ($f as $k => $o) {
+				$files[$k][$v] = $o;
+			}
+		}
+		$statuses = [];
+		foreach ($files as $k => $f) {
+			// @phpstan-ignore-next-line
+			$file = new File($f); 
+			$statuses[] = $file->upload();
+		}
+		if (!in_array(true, $statuses)) {
+			setcookie('swal', 'file_upload_failed', time() + 1, '/');
+		} else {
+			setcookie('swal', 'file_uploaded', time() + 1, '/');
+		}
+		Redirect::back();
 		break;
 }

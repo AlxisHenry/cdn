@@ -29,8 +29,9 @@
 - [:toolbox: Getting Started](#toolbox-getting-started)
   * [:gear: Setup](#gear-setup)
   * [:gear: Configuration](#gear-config)
-  * [:test\_tube: Tests]($t)
-- [:wave: Authors](#wave-authors)
+  * [:test\_tube: Tests](#test_tube-tests)
+  * [:gear: Crontab](#gear-crontab)
+- [:wave: Contributors](#wave-contributors)
 
 ## :star2: About the project
 
@@ -99,7 +100,15 @@ make lint
 make tests || npm run tests
 ```
 
-## :wave: Authors
+### :gear: Crontab
+
+**To setup a CRON to save your shared files, run the command below:**
+
+```bash
+sudo bash utils/cron.sh || make cron
+```
+
+## :wave: Contributors
 
 * **Alexis Henry** _alias_ [@AlxisHenry](https://github.com/AlxisHenry)
 

@@ -18,7 +18,7 @@ function crontab() {
 	elif [ "$EUID" -ne 0 ]; then 
 		throw "Please, run this script as root" true;
 	fi
-	echo "${duration} cp -r ${shared} ${saved}/cdn_save_$(date +%s)" > /etc/cron.hourly/cdn-autosave
+	echo "${duration} cp -r ${shared} ${saved}/cdn_save_\$(date +%s)" > /etc/cron.hourly/cdn-autosave
 }
 
 crontab;

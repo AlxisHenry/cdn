@@ -3,9 +3,6 @@
 
 source utils/tools.sh;
 
-# Duration between running crons
-duration="5 10 * * *";
-
 # Path to shared folder
 shared="/var/www/cdn.alexishenry.eu/public/shared";
 
@@ -18,7 +15,7 @@ function crontab() {
 	elif [ "$EUID" -ne 0 ]; then 
 		throw "Please, run this script as root" true;
 	fi
-	echo "${duration} cp -r ${shared} ${saved}/cdn_save_\$(date +%s)" > /etc/cron.hourly/cdn-autosave
+	echo "cp -r ${shared} ${saved}/cdn_save_\$(date +%s)" > /etc/cron.hourly/cdn-autosave
 }
 
 crontab;

@@ -12,10 +12,13 @@ saved="/home/alexis/save_my_files";
 function crontab() {
 	if [[ ! -d ${saved} ]]; then
 		throw "Save folder specified [ ${saved} ] does not exist" true;
-	elif [ "$EUID" -ne 0 ]; then 
+	elif [ "${EUID}" -ne 0 ]; then 
 		throw "Please, run this script as root" true;
 	fi
-	echo "cp -r ${shared} ${saved}/cdn_save_\$(date +%s)" > /etc/cron.hourly/cdn-autosave
+	cron="/etc/cron.hourly/cdn-autosave";
+	echo "#!/bin/bash
+cp -r ${shared} ${saved}/cdn_save_\$(date +%s)" > ${cron}
+	sudo chmod +x ${cron}
 }
 
 crontab;

@@ -4,10 +4,10 @@
 source utils/tools.sh;
 
 # Path to shared folder
-shared="/var/www/cdn.alexishenry.eu/public/shared";
+shared="/xxx/xxx/public/shared";
 
 # Save folder path
-saved="/home/alexis/save_my_files";
+saved="/xxx/xxx/cdn_shared_saves";
 
 function crontab() {
 	if [[ ! -d ${saved} ]]; then

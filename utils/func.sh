@@ -13,7 +13,7 @@ function upload() {
 		debug "Ssh credentials: ${SSH_USER}@${SSH_ADDR} -p ${SSH_PORT} -t ${SSH_DIST}";
 	fi
 	ssh ${SSH_USER}@${SSH_ADDR} -p ${SSH_PORT} "sudo chown -R ${SSH_USER}:${SSH_USER} ${SSH_DIST}/${category}";
-	rsync -azP -e "ssh -p ${SSH_PORT}" ${file} ${SSH_USER}@${SSH_ADDR}:${SSH_DIST}/${category}/ > /dev/null;
+	rsync -azP -e "ssh -p ${SSH_PORT}" ${formatted_filename} ${SSH_USER}@${SSH_ADDR}:${SSH_DIST}/${category}/ > /dev/null;
 	ssh ${SSH_USER}@${SSH_ADDR} -p ${SSH_PORT} "touch -t \"$(date +"%Y%m%d%H%M")\" ${SSH_DIST}/${category}/${formatted_filename}";
 	ssh ${SSH_USER}@${SSH_ADDR} -p ${SSH_PORT} "sudo chown -R www-data:www-data ${SSH_DIST}/${category}";
 	if [[ "${debug}" == "true" ]];
@@ -127,7 +127,7 @@ function foreach() {
 		fileCategory ${file};
 		# Format in different way the filename
 		filename=$(echo ${file} | rev | cut -d "/" -f 1 | rev);
-		formatted_filename=$(echo ${file} | rev | cut -d "/" -f 1 | rev | tr '[:upper:]' '[:lower:]' | iconv -f utf8 -t ascii//TRANSLIT//IGNORE | tr ' ' '_');
+		formatted_filename=$(echo ${file} | rev | cut -d "/" -f 1 | rev | iconv -f utf8 -t ascii//TRANSLIT//IGNORE | tr ' ' '_');
 		if [[ "${debug}" == "true" ]];
 		then
 			debug "File: ${file}";

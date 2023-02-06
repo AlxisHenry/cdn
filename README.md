@@ -2,7 +2,7 @@
 
 <div align="center">
 
-  <img src="https://cdn.alexishenry.eu/public/images/logo.png" alt="logo" width="220" height="auto" />
+  <img src="https://cdn.alexishenry.eu/shared/images/logo.png" alt="logo" width="220" height="auto" />
   <h1>cdn.alexishenry.eu</h1>
   
   <p>

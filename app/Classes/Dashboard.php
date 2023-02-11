@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+namespace App\Classes;
+
+use Exception;
 use Symfony\Component\Yaml\Yaml;
 
 class Dashboard {

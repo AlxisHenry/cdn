@@ -1,4 +1,4 @@
-<section class='<?= !Auth::check() ?: 'masthead' ?> page-section' id="upload">
+<section class='<?= !$auth ?: 'masthead' ?> page-section' id="upload">
 	<div class="container">
 		<h2 class='page-section-heading text-center text-uppercase'>OUPS... 404</h2>
 		<div class='divider-custom'>

@@ -1,5 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
+namespace App\Classes;
+
+use Exception;
+
 class View {
 
 	/**
@@ -23,6 +29,17 @@ class View {
 		return $view;
 	}
 
+	private static function merge(array $arr): array
+	{
+		return array_merge([
+			"auth" => Auth::check(),
+			"asset" => Asset::class,
+			"dashboard" => Dashboard::class,
+			"swal" => Helper::swal(),
+			"helper" => Helper::class
+		], $arr);
+	}
+
 	/**
 	 * @param string $view
 	 * @param array<string,mixed> $data
@@ -32,7 +49,7 @@ class View {
 	public static function show(string $view, array $data = []): void
 	{
 		try {
-			foreach ($data as $k => $v) { $$k = $v; }
+			foreach (self::merge($data) as $k => $v) { $$k = $v; }
 			include self::ROOT . "/layouts/head.php";
 			include self::find($view);
 			include self::ROOT . "/layouts/foot.php";
@@ -50,6 +67,7 @@ class View {
 	public static function abort(string $view, bool $header = false, array $data = []): void
 	{
 		try {
+			foreach (self::merge($data) as $k => $v) { $$k = $v; }
 			if ($header) include self::ROOT . "/layouts/head.php";
 			include self::find("errors.$view");
 			if ($header) include self::ROOT . "/layouts/foot.php";

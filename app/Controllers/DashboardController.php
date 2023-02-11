@@ -1,5 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
+namespace App\Controllers;
+
+use App\Classes\Category;
+use App\Classes\View;
+use App\Classes\Item;
+
 class DashboardController {
 
 	public function __construct() {}
@@ -10,9 +18,9 @@ class DashboardController {
 	public function index(): void
 	{
 		View::show("pages.dashboard", [
-			"searchResults" => searchResults(),
-			"latestUploads" => latestUploads(),
-			"categories" => getCategories()
+			"searchResults" => Item::search(),
+			"latestUploads" => Item::latest(),
+			"categories" => Category::all()
 		]);
 	}
 
@@ -22,7 +30,7 @@ class DashboardController {
 	public function upload(): void 
 	{
 		View::show("pages.upload", [
-			"latestUploads" => latestUploads()
+			"latestUploads" => Item::latest()
 		]);
 	}
 
@@ -32,7 +40,7 @@ class DashboardController {
 	public function archive(): void 
 	{
 		View::show("pages.zip", [
-			"items" => generateItems(getItems(), html: true)
+			"items" => Item::create(Item::all(), html: true)
 		]);
 	}
 

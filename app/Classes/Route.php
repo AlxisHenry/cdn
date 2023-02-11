@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+namespace App\Classes;
+
+use App\Controllers\DashboardController;
+use Exception;
+
 class Route extends RouteManager {
 
 	/**
@@ -91,10 +96,10 @@ class Route extends RouteManager {
 			$callback = explode('@', $this->callback);
 			$controller = $callback[0];
 			$method = $callback[1];
-			$closure = new $controller();
+			$closure = new DashboardController();
 			$closure->$method();
 		} catch (\Throwable $th) {
-			throw new Exception("Invalid controller name in route call method $th");
+			throw new Exception("Error calling method $method in controller $controller: $th");
 		}
 	}
 

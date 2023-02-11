@@ -1,6 +1,10 @@
 <?php
 
-include_once __DIR__ . '/../app/dashboard.php'; 
+require_once __DIR__ . '/../app/dashboard.php';
+
+use App\Classes\Route;
+use App\Classes\Router;
+use App\Classes\Auth;
 
 Auth::load();
 

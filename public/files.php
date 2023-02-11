@@ -1,5 +1,9 @@
 <?php
 
+use App\Classes\File;
+use App\Classes\Helper;
+use App\Classes\Redirect;
+
 include_once '../app/dashboard.php';
 
 /**
@@ -109,7 +113,7 @@ switch ($action) {
 		foreach ($f as $r) {
 			$files[] = trim($r, '"[]');
 		}
-		createZipAndDownload($files);
+		Helper::createZipAndDownload($files);
 		break;
 	case 'upload':
 		httpMethod(['POST']);

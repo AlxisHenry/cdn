@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace App\Classes;
+
 use Symfony\Component\Yaml\Yaml;
 
 class Auth {

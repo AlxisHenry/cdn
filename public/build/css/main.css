@@ -40,6 +40,11 @@ a.item {
     line-height: 2rem;
 }
 
+.description {
+    text-transform: none;
+    margin-bottom: 0rem;
+}
+
 @media (min-width: 992px) {
     .page-section .page-section-heading {
         font-size: 3rem;
@@ -230,10 +235,13 @@ a.item {
         flex-direction: column;
         gap: 2px;
     }
+    .description {
+        display: none;
+    }
 }
 
 .item-container {
-    padding: 20px!important;
+    padding: 20px !important;
 }
 
 .active-item {
@@ -250,16 +258,16 @@ a.item {
     }
     100% {
         /* top | right | bottom | left */
-        border-width: 1px 1px .5px 1px;
+        border-width: 1px 1px 0.5px 1px;
         border-color: var(--light);
     }
 }
 
 @keyframes cancelActiveItem {
     0% {
-        border-width: 1px 1px .5px 1px;
+        border-width: 1px 1px 0.5px 1px;
         border-color: var(--light);
-    } 
+    }
     100% {
         border-color: #00000020;
         border-width: 1px;
@@ -267,8 +275,8 @@ a.item {
 }
 
 .download-btn {
-    font-size: 20px!important;
-    background-color:  var(--light)!important;
+    font-size: 20px !important;
+    background-color: var(--light) !important;
 }
 
 .download-btn:hover {

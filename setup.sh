@@ -67,15 +67,15 @@ function credentials() {
 	echo -e "Username: [\e[0;33mroot\e[0m] \c"; read -p "> " username;
 	echo -e "\nPassword: [\e[0;33mpassword*123\e[0m] \c"; read -p "> " password;
 	# Check if the username is empty or if the length is less than 3 characters.
-	if [ -z "${username}" ]; then 
-		username="root"; 
+	if [ -z "${username}" ]; then
+		username="root";
 	elif [ ${#username} -lt 3 ]; then
 		echo -e "\n\e[0;31mThe username must be at least 3 characters long.\e[0m";
 		credentials;
 	fi
 	# Check if the password is empty or if the length is less than 8 characters.
-	if [ -z "${password}" ]; then 
-		password="password*123"; 
+	if [ -z "${password}" ]; then
+		password="password*123";
 	elif [ ${#password} -lt 8 ]; then
 		echo -e "\n\e[0;31mThe password must be at least 8 characters long.\e[0m";
 		credentials;
@@ -92,6 +92,7 @@ user:
   password: "${hashed_password}"
 dashboard:
   title: ""
+  subtitle: ""
   description: ""
 EOF
 success "Settings file created successfully" true;

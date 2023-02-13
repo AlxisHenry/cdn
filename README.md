@@ -65,7 +65,8 @@ The first step is to configure dashboard settings. You can do it by editing the 
 ```yml
 dashboard:
   title: "CDN - IT'S ME"
-  description: "COOL CDN FOR COOL PEOPLE"
+  subtitle: "CDN"
+  description: "ABOUT MY CDN"
 ```
 
 The second step is to configure the `config.php` file. You can do it by editing the `config.php` file situated in the root of the project.

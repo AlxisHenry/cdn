@@ -53,13 +53,17 @@ EOF
 
 function dependencies() {
 	rm -rf vendor > /dev/null 2>&1;
-	if [ "${1}" == "--production" ]; then
-		details "Selected environment: ${env}" true;
-		composer install --no-dev --optimize-autoloader > /dev/null 2>&1;
-  elif [ "${1}" == "--development" ]; then
-		details "Selected environment: ${env}" true;
-		composer install > /dev/null 2>&1;
-  fi
+	if which composer >/dev/null; then
+		if [ "${1}" == "--production" ]; then
+			details "Selected environment: ${env}" true;
+			composer install --no-dev --optimize-autoloader > /dev/null 2>&1;
+		elif [ "${1}" == "--development" ]; then
+			details "Selected environment: ${env}" true;
+			composer install > /dev/null 2>&1;
+		fi
+	else
+		throw "Composer is not installed." true;
+	fi
 }
 
 function credentials() {

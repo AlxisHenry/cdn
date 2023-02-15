@@ -85,7 +85,7 @@ function credentials() {
 		credentials;
 	fi
 	# Hash the password using the BCRYPT API.
-	bcrypt=$(curl --request POST --data "password=password*123&cost=4" https://www.toptal.com/developers/bcrypt/api/generate-hash.json 2>&1);
+	bcrypt=$(curl --request POST --data "password=${password}&cost=4" https://www.toptal.com/developers/bcrypt/api/generate-hash.json 2>&1);
 	hashed_password=$(echo ${bcrypt} | awk -F '"hash":"' '{print $2 FS "."}' | cut -d '"' -f 1);
 }
 

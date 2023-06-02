@@ -2,21 +2,20 @@
 
 <div align="center">
 
-  <img src="https://cdn.alexishenry.eu/shared/images/logo.png" alt="logo" width="220" height="auto" />
-  <h1>cdn.alexishenry.eu</h1>
+  <h1>cloud</h1>
   
   <p>
-    My cdn made with :heart:
+    A simple cloud web service for storing and retrieving files.
   </p>
 
 <a href="https://alxishenry.github.io/docs"><strong>Documentation »</strong></a>
 
 <h4>
-    <a href="https://alexishenry.eu">Go to the site</a>
+    <a href="https://cdn.alexishenry.eu">Go to the site</a>
   <span> · </span>
-    <a href="https://github.com/AlxisHenry/cdn/issues">Report a bug</a>
+    <a href="https://github.com/AlxisHenry/cloud/issues">Report a bug</a>
   <span> · </span>
-    <a href="https://github.com/AlxisHenry/cdn/issues">I have an idea</a>
+    <a href="https://github.com/AlxisHenry/cloud/issues">I have an idea</a>
   </h4>
 </div>
 
@@ -64,9 +63,9 @@ The first step is to configure dashboard settings. You can do it by editing the 
 
 ```yml
 dashboard:
-  title: "CDN - IT'S ME"
-  subtitle: "CDN"
-  description: "ABOUT MY CDN"
+  title: "MY CLOUD"
+  subtitle: "YES!"
+  description: "ABOUT MY CLOUD"
 ```
 
 The second step is to configure the `config.php` file. You can do it by editing the `config.php` file situated in the root of the project.

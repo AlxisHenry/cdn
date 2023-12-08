@@ -6,7 +6,6 @@ session_start();
 
 use App\Classes\Helper;
 
-
 require_once __DIR__ . '/../vendor/autoload.php';
 
 if (in_array(Helper::config('APP_ENV'), ["dev", "development"])) {

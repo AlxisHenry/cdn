@@ -185,9 +185,15 @@ class Item
 	 */
 	private static function formatUrl(string $url, bool $isDownloadUrl = false)
 	{
-		$delimiter = $isDownloadUrl ? "=" : "files/";
+		$delimiter = $isDownloadUrl ? "=" : "shared/";
 		$parts = explode($delimiter, $url);
-		return $parts[0] . $delimiter . Item::formatFilename($parts[1]);
+		$parts[0] .= $delimiter;
+		if (!$isDownloadUrl) {
+			$folder = explode("/", $parts[1])[0];
+			$parts[0] .= "$folder/";
+			$parts[1] = str_replace("$folder/", "", $parts[1]);
+		}
+		return $parts[0] . Item::formatFilename($parts[1]);
 	}
 
 	/**
@@ -199,7 +205,7 @@ class Item
 	 */
 	private static function formatFilename(string $filename): string
 	{
-		$maxLength = 3;
+		$maxLength = 6;
 		$extension = pathinfo($filename, PATHINFO_EXTENSION);
 		$filenameWithoutExtension = pathinfo($filename, PATHINFO_FILENAME);
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Classes\Dashboard;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
 

@@ -173,7 +173,7 @@ if (zip) {
 }
 
 document.querySelector(".switch-compact-mode div p").addEventListener("click", (e) => {
-    let items = document.querySelectorAll("ul");
+    let items = document.querySelectorAll("ul:not(.navbar-nav)");
     for (let item of items) {
         if (e.target.checked) {
             item.classList.add("compact");

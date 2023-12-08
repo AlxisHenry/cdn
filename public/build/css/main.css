@@ -225,20 +225,12 @@ a.item {
         display: flex;
         flex-direction: column;
     }
+    .item-main-description span {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 992px) {
-    .item-description {
-        flex-direction: column;
-        gap: 2px;
-    }
-
-    .item-main-description {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-    }
-
     .description {
         display: none;
     }
@@ -412,6 +404,7 @@ ul.compact li {
     border-top-width: inherit;
     flex: 1;
     border-radius: 0!important;
+    min-width: 350px;
 }
 
 ul li .icon {

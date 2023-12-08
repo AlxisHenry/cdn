@@ -187,13 +187,7 @@ class Item
 	{
 		$delimiter = $isDownloadUrl ? "=" : "shared/";
 		$parts = explode($delimiter, $url);
-		$parts[0] .= $delimiter;
-		if (!$isDownloadUrl) {
-			$folder = explode("/", $parts[1])[0];
-			$parts[0] .= "$folder/";
-			$parts[1] = str_replace("$folder/", "", $parts[1]);
-		}
-		return $parts[0] . Item::formatFilename($parts[1]);
+		return $delimiter . $parts[1];
 	}
 
 	/**

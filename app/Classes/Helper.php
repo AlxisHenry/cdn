@@ -14,9 +14,9 @@ class Helper {
 	 * @param string $type
 	 * @return string
 	 */
-	public static function htmlFormat(string $element, string $type = "ul"): string
+	public static function htmlFormat(string $element, string $type = "ul", bool $compact = true): string
 	{
-		return "<$type class='list-group'>$element</$type>";
+		return "<$type class='list-group ". ($compact ? "compact" : "") ."'>$element</$type>";
 	}
 
 	/**

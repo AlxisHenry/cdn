@@ -1,5 +1,5 @@
 <section class='<?= !$auth ?: 'masthead' ?> page-section' id="zip">
-	<div class="container">
+	<div class="container zip-items">
 		<h2 class='page-section-heading text-center text-uppercase'>Archive</h2>
 		<div class='divider-custom'>
 			<div class='divider-custom-line'></div>
@@ -12,6 +12,6 @@
 		<div class="download-button w-100 mb-4 mt-3 flex justify-items-center">
 			<button class="download-btn btn btn-primary w-100 p-4" id="download-button">Download</button>
 		</div>
-    <?= $items // @phpstan-ignore-line ?>
+		<?= $items // @phpstan-ignore-line ?>
 	</div>
 </section>

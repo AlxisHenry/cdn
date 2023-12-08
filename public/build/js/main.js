@@ -1,4 +1,4 @@
-const icons = document.querySelectorAll(".edit-item, .delete-item");
+const icons = document.querySelectorAll(".edit-item, .delete-item, .copy");
 
 const alert = (properties) => {
     const { type, title, text, color } = {
@@ -26,10 +26,8 @@ icons.forEach((icon) => {
         let container = icon.parentNode;
         let properties = {
             action: icon.dataset.action,
-            category: item.dataset.category,
-            filename: item.dataset.filename,
-            filepath: item.dataset.filepath,
             token: container.dataset.token,
+            ...item.dataset
         };
         switch (properties.action) {
             case "edit":
@@ -117,6 +115,14 @@ icons.forEach((icon) => {
                     }
                 });
                 break;
+            case "copy":
+                navigator.clipboard.writeText(properties.previewUrl);
+                alert({
+                    title: "Copied!",
+                    text: "Preview url copied to your clipboard !",
+                    type: "success",
+                });
+                break;
         }
     });
 });
@@ -138,12 +144,8 @@ if (zip) {
             }
         });
     });
-}
 
-const download = document.querySelector("#download-button");
-
-if (download) {
-    download.addEventListener("click", () => {
+    document.querySelector("#download-button").addEventListener("click", () => {
         const activeItems = document.querySelectorAll(".active-item");
         if (!activeItems || activeItems.length === 0) {
             alert({ type: "error", text: "No files selected." });
@@ -169,3 +171,14 @@ if (download) {
         });
     });
 }
+
+document.querySelector(".switch-compact-mode div p").addEventListener("click", (e) => {
+    let items = document.querySelectorAll("ul");
+    for (let item of items) {
+        if (e.target.checked) {
+            item.classList.add("compact");
+        } else {
+            item.classList.remove("compact");
+        }
+    }
+});

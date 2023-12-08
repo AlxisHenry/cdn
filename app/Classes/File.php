@@ -10,7 +10,7 @@ class File {
 	 * @var array<String,array<String>> ALLOWED_EXTENSIONS
 	 */
 	const ALLOWED_EXTENSIONS = [
-		'files' => ['pdf', 'md', 'txt', 'yml', 'json', 'yaml', 'css', 'js'],
+		'files' => ['pdf', 'md', 'txt', 'yml', 'json', 'yaml', 'css', 'js', "zip"],
 		'images' => ['jpg', 'jpeg', 'png', 'gif', 'svg', 'jfif', 'webp', 'jif'],
 		'videos' => ['mp4', 'webm']
 	];
